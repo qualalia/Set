@@ -1,6 +1,7 @@
-import React from 'react'
-import {Item} from 'semantic-ui-react'
+import React, {useEffect} from 'react'
+import {useSelector, useDispatch} from 'react-redux'
 import {Card} from '../components'
+import {getDeck} from '../store/newDeck.js'
 
 const GameBoard = props => {
   const cardPlaces = []
