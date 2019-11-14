@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
-import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, Game} from './components'
 import {me} from './store'
 
@@ -24,7 +23,7 @@ const Routes = () => {
           <Route path="/home" component={UserHome} />
         </Switch>
       )}
-      <Route render={() => <Game />} />
+      <Route path="/solitaire" render={() => <Game />} />
     </Switch>
   )
 }
