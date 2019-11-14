@@ -8,6 +8,15 @@ const Game = db.define('game', {
   },
   winner: {
     type: Sequelize.JSON
+  },
+  dealtCards: {
+    type: Sequelize.ARRAY(Sequelize.INTEGER)
+  },
+  drawPile: {
+    type: Sequelize.ARRAY(Sequelize.INTEGER)
+  },
+  discardPile: {
+    type: Sequelize.ARRAY(Sequelize.INTEGER)
   }
 })
 module.exports = Game
