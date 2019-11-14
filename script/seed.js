@@ -1,9 +1,19 @@
 const faker = require('faker')
 const {green, red} = require('chalk')
 const customId = require('custom-id')
-const {db, User, Game} = require('../server/db')
+const {db, User, Game, Deck} = require('../server/db')
 
 const TOTAL_SEEDS = 100
+//let cardsInDeck = []
+/*for (let i = 0; i < 81; i++)
+  cardsInDeck.push({
+    value: [i % 3],
+    type: Math.floor(i / 3) % 3,
+    fill: Math.floor(i / 9) % 3,
+    color: Math.floor(i / 27),
+  })
+console.log(cardsInDeck)*/
+
 let dummyUsers = [
   {
     username: 'linda',
@@ -40,6 +50,11 @@ async function seed() {
   const seededGames = await Promise.all(
     dummyGames.map(game => Game.create(game))
   )
+  /*  const seededCards = await Promise.all(
+    cardsInDeck.map(card => Card.create(card))
+  )*/
+  /*  const seededDeck = await Deck.create()
+  Deck.setCards(seededCards) */
 
   // Associations
   for (let i = 0; i < 20; i++) {
@@ -51,6 +66,7 @@ async function seed() {
     }
   }
   console.log('Now 20 games have up to 4 players!')
+  // Complete seed
   console.log(
     `Database seeded with ${seededUsers.length} and ${
       seededGames.length
