@@ -1,19 +1,61 @@
-'use strict'
+const faker = require('faker')
+const {green, red} = require('chalk')
+const customId = require('custom-id')
+const {db, User, Game} = require('../server/db')
 
-const db = require('../server/db')
-const {User} = require('../server/db/models')
+const TOTAL_SEEDS = 100
+let dummyUsers = [
+  {
+    username: 'linda',
+    email: 'linda@linda.com',
+    password: '12345',
+    status: 'admin',
+    isOnline: true
+  }
+]
+let dummyGames = []
+for (let i = 0; i < TOTAL_SEEDS; i++) {
+  dummyUsers.push({
+    username: faker.internet.userName(),
+    email: faker.internet.email(),
+    password: '123',
+    status: ['admin', 'user', 'guest'][Math.round(Math.random() - 0.5)],
+    rating: Math.floor(Math.random() * 100),
+    googleId: faker.random.uuid(),
+    isOnline: Math.floor(Math.random() * 2)
+  })
+  dummyGames.push({
+    code: customId({}),
+    winner: dummyUsers[Math.floor(Math.random() * TOTAL_SEEDS)]
+  })
+}
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
-  ])
+  const seededUsers = await Promise.all(
+    dummyUsers.map(user => User.create(user))
+  )
+  const seededGames = await Promise.all(
+    dummyGames.map(game => Game.create(game))
+  )
 
-  console.log(`seeded ${users.length} users`)
-  console.log(`seeded successfully`)
+  // Associations
+  for (let i = 0; i < 20; i++) {
+    const usersOnGame = Math.floor(Math.random() * 4)
+    for (let j = 0; j < usersOnGame; j++) {
+      const currentUser = seededUsers[Math.floor(Math.random() * TOTAL_SEEDS)]
+      await currentUser.addGame(seededGames[i])
+      await seededGames[i].addUser(currentUser)
+    }
+  }
+  console.log('Now 20 games have up to 4 players!')
+  console.log(
+    `Database seeded with ${seededUsers.length} and ${
+      seededGames.length
+    } games.`
+  )
 }
 
 // We've separated the `seed` function from the `runSeed` function.
@@ -24,7 +66,7 @@ async function runSeed() {
   try {
     await seed()
   } catch (err) {
-    console.error(err)
+    console.log(red('error seeding'))
     process.exitCode = 1
   } finally {
     console.log('closing db connection')
