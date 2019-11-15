@@ -254,7 +254,7 @@ const Card = props => {
             {/*<text x="40" y="70" fill="black" fontSize="35">
 		{`${theCard.shape}, ${tuple[0]+1}`}
 		</text>*/}
-            <Shape className={shape.props.style.color} shape={shape} />
+            {shape}
           </g>
         )
       })}
