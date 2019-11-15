@@ -27,10 +27,9 @@ export const checkSet = threeCards => {
 export const dealCard = (deck, nextCardPos) => {
   if (nextCardPos >= 0 && nextCardPos < deck.length) {
     let toDeal = deck[nextCardPos]
-    //    toDeal.setFaceUp(true)
     return toDeal
   }
-  return 'No cards left!'
+  return []
 }
 
 export const shuffle = cards => {
