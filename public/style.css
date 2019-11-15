@@ -36,3 +36,46 @@ nav {
   position: absolute;
   left: calc(50% - 5rem);
 }
+
+.card {
+  margin: 1.5rem;
+  width: 15rem;
+  height: 10rem;
+  border: 2px solid white;
+  background-color: white;
+  border-radius: 10px;
+}
+
+#draw-pile {
+  position: absolute;
+  top: 40%;
+  left: 85%;
+  width: 10rem;
+  height: 15rem;
+  border-radius: 10px;
+  border: 2px solid yellow;
+}
+
+.your-sets {
+  border: 1px solid green;
+  position: absolute;
+  left: 90%;
+  top: 80%;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: green;
+}
+
+#game-board {
+  margin: 7rem;
+  padding: 2rem 6rem;
+  qwidth: 80vw;
+  height: 70vh;
+  background-color: aquamarine;
+  border: 1px solid orange;
+}

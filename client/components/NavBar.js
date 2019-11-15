@@ -10,8 +10,20 @@ const Navbar = ({history}) => {
   const dispatch = useDispatch()
 
   const options = [
-    {key: 1, text: 'Solitaire', icon: 'user', value: 1},
-    {key: 2, text: 'Multiplayer', icon: 'users', value: 2}
+    {
+      key: 1,
+      text: 'Solitaire',
+      icon: 'user',
+      value: 1,
+      onClick: () => history.push('/solitaire')
+    },
+    {
+      key: 2,
+      text: 'Multiplayer',
+      icon: 'users',
+      value: 2,
+      onClick: () => console.log('coming soon')
+    }
   ]
 
   return (

@@ -17,7 +17,7 @@ router.get('/', async (req, res, next) => {
     for (let i = 0; i < 81; i++) cardsInDeck.push(i)
     shuffle(cardsInDeck)
     const deck = await Deck.findOrCreate({where: {cards: cardsInDeck}})
-    res.json(deck)
+    res.json(deck[0])
   } catch (err) {
     next(err)
   }

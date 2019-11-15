@@ -6,3 +6,7 @@
 export {default as Navbar} from './NavBar.js'
 export {default as UserHome} from './UserHome.js'
 export {Login, Signup} from './AuthForm'
+export {default as Card} from './Card.js'
+export {default as GameBoard} from './GameBoard.js'
+export {default as Game} from './Game'
+export {default as DealPile} from './DealPile'
