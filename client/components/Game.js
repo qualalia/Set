@@ -6,11 +6,10 @@ import {dealCard} from '../gameUtils'
 
 const Game = props => {
   const deck = useSelector(state => state.newDeck)
-  const clickedCard = useSelector(state => state.toggleClicked)
   const cards = deck.cards || []
   console.log(deck)
-  const newGameCards = []
-  const addThree = []
+  const cardsOnTheBoard = []
+  let cardsToDeal = []
   let nextCardPos = deck.nextCardPos
   let threeCards = []
 
@@ -19,43 +18,62 @@ const Game = props => {
     dispatch(getDeck())
   }, [])
 
-  for (let i = 0; i < 12; i++) newGameCards.push(dealCard(cards, nextCardPos++))
-  console.log('cards for new game: ', newGameCards)
+  for (let i = 0; i < 12; i++)
+    cardsOnTheBoard.push(dealCard(cards, nextCardPos++))
+  console.log('cards for new game: ', cardsOnTheBoard)
 
   const handleStumped = () => {
-    // pass in something (like 'true') if stumped
-    for (let i = 0; i < 3; i++) addThree.push(dealCard(cards, nextCardPos++))
-    console.log('stumped --> 3 more cards: ', addThree)
+    dealThree()
+    console.log('stumped --> 3 more cards: ', cardsToDeal)
   }
 
   const handleClickCard = tuple => {
     if (threeCards.includes(tuple)) {
       threeCards.splice(threeCards.indexOf(tuple), 1)
-      console.log('cards clicked so far: ', threeCards)
     } else if (threeCards.length < 3) {
       threeCards.push(tuple)
-      console.log('cards clicked so far: ', threeCards)
-      if (threeCards.length === 3) checkSet(threeCards)
+      if (threeCards.length === 3) {
+        //dispatch(checkSet(threeCards))
+        checkSet(threeCards)
+        threeCards = []
+      }
     } else threeCards = []
   }
 
+  // move to GET /set
   const checkSet = threeCards => {
     for (let i = 0; i < 4; i++) {
       let sum = 0
       for (let j = 0; j < threeCards.length; j++) {
         sum += threeCards[j][i]
-        console.log('sum so far: ', sum)
       }
-      if (sum % 3 !== 0) return false
+      if (sum % 3 !== 0) {
+        alert('not a set')
+        threeCards = []
+        return false
+      }
+    }
+    alert('set!')
+    // remove clicked cards from deck
+    while (threeCards.length) {
+      const indexToReplace = cardsOnTheBoard.indexOf(threeCards[0])
+      cardsOnTheBoard.splice(
+        indexToReplace,
+        1,
+        dealCard(cards, nextCardPos++) || []
+      )
     }
     return true
   }
-  console.log('set? ', checkSet(threeCards))
+
+  const dealThree = () => {
+    for (let i = 0; i < 3; i++) cardsToDeal.push(dealCard(cards, nextCardPos++))
+  }
 
   return (
     <div id="playing-area">
       <GameBoard
-        cardsToDeal={newGameCards}
+        cardsToDeal={cardsOnTheBoard}
         clickedCards={threeCards}
         onClick={handleClickCard}
       />
