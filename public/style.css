@@ -41,7 +41,8 @@ nav {
   margin: 1.5rem;
   width: 15rem;
   height: 10rem;
-  border: 2px solid purple;
+  border: 2px solid white;
+  background-color: white;
   border-radius: 10px;
 }
 
@@ -73,7 +74,8 @@ nav {
 #game-board {
   margin: 7rem;
   padding: 2rem 6rem;
-  width: 80vw;
+  qwidth: 80vw;
   height: 70vh;
+  background-color: aquamarine;
   border: 1px solid orange;
 }
