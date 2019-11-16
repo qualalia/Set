@@ -1,4 +1,3 @@
-const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const db = require('../db')
 
@@ -7,16 +6,24 @@ const Game = db.define('game', {
     type: Sequelize.STRING
   },
   winner: {
-    type: Sequelize.JSON
+    type: Sequelize.JSONB
   },
-  dealtCards: {
-    type: Sequelize.ARRAY(Sequelize.INTEGER)
+  deck: {
+    type: Sequelize.ARRAY(Sequelize.INTEGER),
+    defaultValue: []
   },
-  drawPile: {
-    type: Sequelize.ARRAY(Sequelize.INTEGER)
+  cardsOnTheBoard: {
+    type: Sequelize.ARRAY(Sequelize.INTEGER),
+    defaultValue: []
   },
-  discardPile: {
-    type: Sequelize.ARRAY(Sequelize.INTEGER)
+  clickedCards: {
+    // keep track of who clicked what cards (dynamic)
+    type: Sequelize.ARRAY(Sequelize.JSON),
+    defaultValue: []
+  },
+  nextCardPos: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   }
 })
 module.exports = Game
