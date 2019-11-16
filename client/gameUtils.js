@@ -1,4 +1,4 @@
-export const numberToTuple = x => {
+const numberToTuple = x => {
   if (x >= 81) console.log('out of range...somehow')
   const tuple = [
     x % 3,
@@ -9,22 +9,22 @@ export const numberToTuple = x => {
   return tuple
 }
 
-export const checkSet = threeCards => {
+const checkSet = threeCards => {
   if (threeCards.length < 3 || threeCards.length > 3)
     return new Error('not enough cards')
   for (let i = 0; i < 4; i++) {
     let sum = 0
-    for (let j = 0; j < 4; j++) {
+    for (let j = 0; j < 3; j++) {
       sum += threeCards[j][i]
-      console.log(threeCards[j][i])
     }
-    console.log(sum)
-    if (sum % 3) return false
+    if (sum % 3 !== 0) {
+      return false
+    }
   }
   return true
 }
 
-export const dealCard = (deck, nextCardPos) => {
+const dealCard = (deck, nextCardPos) => {
   if (nextCardPos >= 0 && nextCardPos < deck.length) {
     let toDeal = deck[nextCardPos]
     return toDeal
@@ -32,7 +32,7 @@ export const dealCard = (deck, nextCardPos) => {
   return []
 }
 
-export const shuffle = cards => {
+const shuffle = cards => {
   for (let i = 0; i < cards.length; i++) {
     let swapPos = Math.floor(Math.random() * 81)
     let temp = cards[i]
@@ -41,8 +41,10 @@ export const shuffle = cards => {
   }
 }
 
-export const getNextCardPos = deck => deck.nextCardPos
+const getNextCardPos = deck => deck.nextCardPos
 
-export const setNextCardPos = (deck, theNextPos) => {
+const setNextCardPos = (deck, theNextPos) => {
   deck.nextCardPos = theNextPos
 }
+
+module.exports = {checkSet, numberToTuple, dealCard, shuffle}
