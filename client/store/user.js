@@ -37,7 +37,6 @@ export const auth = (email, password, method) => async dispatch => {
   } catch (authError) {
     return dispatch(getUser({error: authError}))
   }
-
   try {
     dispatch(getUser(res.data))
     history.push('/home')
@@ -51,6 +50,16 @@ export const logout = () => async dispatch => {
     await axios.post('/auth/logout')
     dispatch(removeUser())
     history.push('/login')
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const newAnon = () => async dispatch => {
+  try {
+    const {data} = await axios.post('/api/users')
+    console.log('In thunk. New anon from POST request: ', data)
+    dispatch(getUser(data || defaultUser))
   } catch (err) {
     console.error(err)
   }
