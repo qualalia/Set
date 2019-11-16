@@ -2,27 +2,29 @@ import React from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {withRouter} from 'react-router'
 import {Menu, Dropdown, Button} from 'semantic-ui-react'
-import {logout} from '../store'
+import {logout, newAnon} from '../store'
 
 const Navbar = ({history}) => {
   const user = useSelector(state => state.user)
-  const isLoggedIn = !!user.id
+  const isLoggedIn = !!user.email
   const dispatch = useDispatch()
 
   const options = [
     {
       key: 1,
-      text: 'Solitaire',
+      text: 'Solo',
       icon: 'user',
       value: 1,
-      onClick: () => history.push('/solitaire')
+      onClick: () => {
+        if (!user.id) dispatch(newAnon())
+        history.push('/solo')
+      }
     },
     {
       key: 2,
-      text: 'Multiplayer',
+      text: <i>Multiplayer (coming soon)</i>,
       icon: 'users',
-      value: 2,
-      onClick: () => console.log('coming soon')
+      value: 2
     }
   ]
 
