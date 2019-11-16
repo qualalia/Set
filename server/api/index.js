@@ -3,6 +3,7 @@ module.exports = router
 
 router.use('/users', require('./users'))
 router.use('/deck', require('./deck.js'))
+router.use('/games', require('./game.js'))
 
 router.use((req, res, next) => {
   const error = new Error('Not Found')
