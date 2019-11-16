@@ -67,7 +67,6 @@ const Card = props => {
   if ([...Object.values(theCard)].includes(-1))
     return console.error('something went wrong in the tuple? ', tuple)
 
-  console.log(theCard)
   const amount = tuple[0] + 1
   const shapesOnCard = []
   let parity = 1
@@ -249,7 +248,7 @@ const Card = props => {
 
       {shapesOnCard.map((shape, index) => {
         return (
-          <g>
+          <g key={`${shape.props.style.color}${index}`}>
             <rect />
             {/*<text x="40" y="70" fill="black" fontSize="35">
 		{`${theCard.shape}, ${tuple[0]+1}`}
