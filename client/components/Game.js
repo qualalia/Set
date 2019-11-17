@@ -21,18 +21,11 @@ const Game = props => {
 
   console.log('in Game: ', clickedCards)
   if (clickedCards.length === 3) {
-    dispatch(checkSet(clickedCards))
-    if (ilyaSet) {
-      dispatch(updateGame(clickedCards, user.id, game.id))
-      dispatch(setClickedCards([]))
-      /* toggleClicked(clickedCards, clickedCards[0])
-       * toggleClicked(clickedCards, clickedCards[0])
-       * toggleClicked(clickedCards, clickedCards[0]) */
-      /* dispatch(playerClickCard(clickedCards[0], game.id, user.id))
-       * dispatch(playerClickCard(clickedCards[0], game.id, user.id))
-       * dispatch(playerClickCard(clickedCards[0], game.id, user.id)) */
-      dispatch(checkSet(clickedCards))
-    }
+    //    dispatch(checkSet(clickedCards))
+    //    if (ilyaSet) {
+    dispatch(updateGame(clickedCards, user.id, game.id))
+    dispatch(setClickedCards([]))
+    //      dispatch(checkSet(clickedCards))
   }
 
   return (
