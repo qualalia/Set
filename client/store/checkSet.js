@@ -13,8 +13,7 @@ const resultOfCheck = isSet => ({type: CHECK_SET, isSet})
 // THUNK CREATORS
 export const checkSet = threeCards => async dispatch => {
   try {
-    const {data} = await axios.post('/api/game/check-set', threeCards)
-    console.log(data)
+    const {data} = await axios.post('/api/games/check-set', threeCards)
     dispatch(resultOfCheck(data))
   } catch (err) {
     console.error(red(err))
