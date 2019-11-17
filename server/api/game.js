@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const {Game, User} = require('../db/models')
-const {checkSet, shuffle} = require('../../client/gameUtils.js')
+const {checkSet, shuffle, numberToTuple} = require('../../client/gameUtils.js')
 const customId = require('custom-id')
 module.exports = router
 
@@ -70,44 +70,27 @@ router.put('/:id/players', async (req, res, next) => {
     const game = await Game.findByPk(gameId)
     console.log(playerToAdd)
 
-    //    const updatedGame = await game.addUser()
     res.sendStatus(200)
   } catch (err) {
     next(err)
   }
 })
 
-router.post('/:gId/:pId/click-card', async (req, res, next) => {
+router.put('/:gId/:pId/click-card', async (req, res, next) => {
   try {
-    console.log(req.body)
-    // want player info (username/anon) and card info (tuple)
+    const card = +Object.keys(req.body)[0]
     const game = await Game.findByPk(+req.params.gId)
-    const player = await User.findOne({
-      where: {username: req.params.pId}
-    })
-    console.log('game: ', game, 'player :', player)
-    res.sendStatus(200)
-    /*  if (clickedCards.includes(tuple)) {
-    clickedCards.splice(clickedCards.indexOf(tuple), 1)
-  }
-  else if (clickedCards.length < 3) {
-    clickedCards.push(tuple)
-    if (clickedCards.length === 3) {
-      console.log(clickedCards)
-      dispatch(checkSet(clickedCards))
-      // probably move this to the back, too, so that everyone can see
-      while (clickedCards.length) {
-	const indexToReplace = cardsOnTheBoard.indexOf(clickedCards[0])
-	cardsOnTheBoard.splice(
-	  indexToReplace,
-	  1,
-	  dealCard(cards, nextCardPos++) || []
-	)
-      }
-      return true
-    }
-  }
-   else clickedCards = []*/
+    const player = await User.findByPk(+req.params.pId)
+    let clickedCards = player.clickedCards
+
+    if (clickedCards.length >= 3) {
+      clickedCards = [card]
+    } else if (clickedCards.includes(card)) {
+      clickedCards.splice(clickedCards.indexOf(card), 1)
+    } else clickedCards.push(card)
+
+    await User.update({clickedCards}, {where: {id: player.id}})
+    res.status(200).json(clickedCards)
   } catch (err) {
     next(err)
   }
@@ -116,8 +99,38 @@ router.post('/:gId/:pId/click-card', async (req, res, next) => {
 router.post('/check-set', async (req, res, next) => {
   // make a dictionary of sets?
   try {
-    const threeCards = req.body
-    res.status(200).send(await checkSet(threeCards))
+    if (Object.keys(req.body)[0] === 'false') {
+      res.send(false)
+    } else {
+      let threeCards = req.body
+      threeCards = threeCards.map(n => numberToTuple(n))
+      res.status(200).send(checkSet(threeCards))
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/:gId/:pId/update-board', async (req, res, next) => {
+  try {
+    const theSet = req.body
+    const game = await Game.findByPk(+req.params.gId)
+    const player = await User.findByPk(+req.params.pId)
+    console.log('set: ', theSet, 'game id: ', game.id, 'player id: ', player.id)
+    let {cardsOnTheBoard, nextCardPos} = game
+    for (let i = 0; i < 3; i++) {
+      cardsOnTheBoard.splice(
+        cardsOnTheBoard.indexOf(theSet[i]),
+        1,
+        game.deck[nextCardPos++]
+      )
+    }
+    await User.update({sets: player.sets + 1}, {where: {id: player.id}})
+    const updatedGame = await Game.update(
+      {cardsOnTheBoard, nextCardPos},
+      {where: {id: game.id}, returning: true, plain: true}
+    )
+    res.status(200).json(updatedGame[1])
   } catch (err) {
     next(err)
   }
