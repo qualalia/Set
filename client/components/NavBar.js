@@ -16,7 +16,6 @@ const Navbar = ({history}) => {
       icon: 'user',
       value: 1,
       onClick: () => {
-        if (!user.id) dispatch(newAnon())
         history.push('/solo')
       }
     },
@@ -38,13 +37,13 @@ const Navbar = ({history}) => {
           </Menu>
         </div>
         <div className="home-login">
-          <Button
+          {/*          <Button
             onClick={() =>
               isLoggedIn ? history.push('/home') : history.push('/login')
             }
           >
             {user.username || 'Login'}
-          </Button>
+          </Button>*/}
           {user.email ? (
             <Button onClick={() => dispatch(logout())}>Logout</Button>
           ) : (
