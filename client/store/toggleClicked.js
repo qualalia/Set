@@ -1,8 +1,9 @@
+const axios = require('axios')
+const {red} = require('chalk')
 /**
  * ACTION TYPES
  */
-const SET_CARD_CLICKED = 'SET_CARD_CLICKED'
-const SET_CARD_UNCLICKED = 'SET_CARD_UNCLICKED'
+const TOGGLE_CARD_CLICKED = 'TOGGLE_CARD_CLICKED'
 
 /**
  * INITIAL STATE
@@ -12,27 +13,29 @@ const blankCard = []
 /**
  * ACTION CREATORS
  */
-const setCardClicked = card => ({type: SET_CARD_CLICKED, card})
-const setCardUnclicked = card => ({type: SET_CARD_UNCLICKED, card})
+const toggleCardClicked = card => ({type: TOGGLE_CARD_CLICKED, card})
 
 /**
  * THUNK CREATORS
  */
-export const userClickCard = tuple => async dispatch => {
-  dispatch(setCardClicked({val: number, isClicked: true}))
+export const playerClickCard = (card, gameId, playerId) => async dispatch => {
+  try {
+    const {data} = await axios.put(
+      `/api/games/${gameId}/${playerId}/click-card`,
+      card
+    )
+    dispatch(toggleCardClicked(data))
+  } catch (err) {
+    console.error(red(err))
+  }
 }
 
-export const userUnclickCard = number => dispatch => {
-  dispatch(setCardUnclicked({val: number, isClicked: false}))
-}
 /**
  * REDUCER
  */
 export default function(state = blankCard, action) {
   switch (action.type) {
-    case SET_CARD_CLICKED:
-      return action.card
-    case SET_CARD_UNCLICKED:
+    case TOGGLE_CARD_CLICKED:
       return action.card
     default:
       return state
