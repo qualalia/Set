@@ -58,7 +58,6 @@ export const logout = () => async dispatch => {
 export const newAnon = () => async dispatch => {
   try {
     const {data} = await axios.post('/api/users')
-    console.log('In thunk. New anon from POST request: ', data)
     dispatch(getUser(data || defaultUser))
   } catch (err) {
     console.error(err)
