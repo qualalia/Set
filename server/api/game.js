@@ -48,7 +48,7 @@ router.post('/new', async (req, res, next) => {
     const deck = []
     const firstTwelve = []
     for (let i = 0; i < 81; i++) deck.push(i)
-    shuffle(deck)
+    //    shuffle(deck)
     for (let i = 0; i < 12; i++) firstTwelve.push(deck[i])
     const newGame = await Game.create({
       code: customId({}),
@@ -76,7 +76,7 @@ router.put('/:id/players', async (req, res, next) => {
   }
 })
 
-router.put('/:gId/:pId/click-card', async (req, res, next) => {
+/*router.put('/:gId/:pId/click-card', async (req, res, next) => {
   try {
     const card = +Object.keys(req.body)[0]
     const game = await Game.findByPk(+req.params.gId)
@@ -94,7 +94,7 @@ router.put('/:gId/:pId/click-card', async (req, res, next) => {
   } catch (err) {
     next(err)
   }
-})
+})*/
 
 router.post('/check-set', async (req, res, next) => {
   // make a dictionary of sets?
@@ -116,7 +116,6 @@ router.put('/:gId/:pId/update-board', async (req, res, next) => {
     const theSet = req.body
     const game = await Game.findByPk(+req.params.gId)
     const player = await User.findByPk(+req.params.pId)
-    console.log('set: ', theSet, 'game id: ', game.id, 'player id: ', player.id)
     let {cardsOnTheBoard, nextCardPos} = game
     for (let i = 0; i < 3; i++) {
       cardsOnTheBoard.splice(

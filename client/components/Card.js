@@ -1,17 +1,24 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import {playerClickCard} from '../store/toggleClicked.js'
+import {setClickedCards} from '../store/toggleClicked.js'
 import {numberToTuple} from '../gameUtils'
 //import {Shape} from '../components'
 
 const Card = props => {
   const {which} = props
-  const gameId = useSelector(state => state.game.id) || -1
-  const user = useSelector(state => state.user)
-  const playerId = user.id
+  //  const gameId = useSelector(state => state.game.id) || -1
+  //  const user = useSelector(state => state.user)
+  let clickedCards = useSelector(state => state.setClickedCards)
+  //  const playerId = user.id
   const dispatch = useDispatch()
   const handleClick = () => {
-    dispatch(playerClickCard(which, gameId, playerId))
+    if (clickedCards.length > 3) {
+      clickedCards = [which]
+    } else if (clickedCards.includes(which)) {
+      clickedCards.splice(clickedCards.indexOf(which), 1)
+    } else clickedCards.push(which)
+    dispatch(setClickedCards(clickedCards))
+    //    dispatch(toggleClicked(clickedCards, which))
   }
 
   const tuple = numberToTuple(which)
@@ -199,8 +206,7 @@ const Card = props => {
   }
 
   return (
-    <svg className="single-card" onClick={() => handleClick()} tagname={1}>
-      >
+    <svg className="single-card" onClick={() => handleClick()}>
       <defs>
         <pattern
           id="diagonal-hatch-purple"
@@ -211,8 +217,8 @@ const Card = props => {
           <path
             className="path"
             d="M-1,1 l2,-2
-	    M0,4 l4,-4
-	    M3,5 l2,-2"
+	  M0,4 l4,-4
+	  M3,5 l2,-2"
             style={{stroke: 'purple', strokeWidth: 1}}
           />
         </pattern>
@@ -225,8 +231,8 @@ const Card = props => {
           <path
             className="path"
             d="M-1,1 l2,-2
-	    M0,4 l4,-4
-	    M3,5 l2,-2"
+	  M0,4 l4,-4
+	  M3,5 l2,-2"
             style={{stroke: 'green', strokeWidth: 1}}
           />
         </pattern>
@@ -239,29 +245,20 @@ const Card = props => {
           <path
             className="path"
             d="M-1,1 l2,-2
-	    M0,4 l4,-4
-	    M3,5 l2,-2"
+	  M0,4 l4,-4
+	  M3,5 l2,-2"
             style={{stroke: 'red', strokeWidth: 1}}
           />
         </pattern>
       </defs>
       {shapesOnCard.map((shape, index) => {
-        return (
-          <g key={`${shape.props.style.color}${index}`}>
-            <rect />
-            {/*<text x="40" y="70" fill="black" fontSize="35">
-		  {`${theCard.shape}, ${tuple[0]+1}`}
-		  </text>*/}
-            {shape}
-          </g>
-        )
+        return <g key={`${shape.props.style.color}${index}`}>{shape}</g>
       })}
     </svg>
   )
 }
 
 export default Card
-//    example cubic: <path d="M100,250 C189,466 318,79 400,250" />
 
 /* nice squiggle but only as stroke:
    <path d="M40,20 C70,70 5,60 34,100"

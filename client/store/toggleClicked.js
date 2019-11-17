@@ -1,42 +1,45 @@
-const axios = require('axios')
-const {red} = require('chalk')
+//const axios = require('axios')
 /**
  * ACTION TYPES
  */
-const TOGGLE_CARD_CLICKED = 'TOGGLE_CARD_CLICKED'
+const SET_CLICKED_CARDS = 'SET_CLICKED_CARDS'
 
 /**
  * INITIAL STATE
  */
-const blankCard = []
+const initialState = []
 
 /**
  * ACTION CREATORS
  */
-const toggleCardClicked = card => ({type: TOGGLE_CARD_CLICKED, card})
+export const setClickedCards = cards => ({type: SET_CLICKED_CARDS, cards})
 
+/* export const toggleClicked = (clickedCards, card) => {
+ *   setClicked(clickedCards)
+ * }
+ *  */
 /**
  * THUNK CREATORS
  */
-export const playerClickCard = (card, gameId, playerId) => async dispatch => {
-  try {
-    const {data} = await axios.put(
-      `/api/games/${gameId}/${playerId}/click-card`,
-      card
-    )
-    dispatch(toggleCardClicked(data))
-  } catch (err) {
-    console.error(red(err))
-  }
-}
+/*export const toggleClicked = (card, gameId, playerId) => async dispatch => {
+   try {
+   const {data} = await axios.put(
+   `/api/games/${gameId}/${playerId}/click-card`,
+   card
+   )
+   dispatch(toggleCardClicked(data))
+   } catch (err) {
+   console.error(red(err))
+   }
+   }*/
 
 /**
  * REDUCER
  */
-export default function(state = blankCard, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
-    case TOGGLE_CARD_CLICKED:
-      return action.card
+    case SET_CLICKED_CARDS:
+      return [...action.cards]
     default:
       return state
   }
