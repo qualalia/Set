@@ -3,16 +3,14 @@ import {createLogger} from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
-import newDeck from './newDeck'
 import game from './game.js'
-import toggleClicked from './toggleClicked'
+import setClickedCards from './toggleClicked'
 import checkSet from './checkSet'
-import dealCard from './dealCard.js'
 
 const reducer = combineReducers({
   user,
   checkSet,
-  toggleClicked,
+  setClickedCards,
   game
 })
 const middleware = composeWithDevTools(
