@@ -1,21 +1,20 @@
 import React from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import {toggleClicked} from '../store/toggleClicked'
+import {playerClickCard} from '../store/toggleClicked.js'
 import {numberToTuple} from '../gameUtils'
-import {Shape} from '../components'
+//import {Shape} from '../components'
 
 const Card = props => {
-  const {which, onClick} = props
-  //  const clicked = useSelector(state => state.card) // get that gorram redux store going
-  //  const dispatch = useDispatch()
+  const {which} = props
+  const gameId = useSelector(state => state.game.id) || -1
+  const user = useSelector(state => state.user)
+  const playerId = user.id
+  const dispatch = useDispatch()
+  const handleClick = () => {
+    dispatch(playerClickCard(which, gameId, playerId))
+  }
+
   const tuple = numberToTuple(which)
-  // todo: render the card visually
-  /*
-     value: [i % 3],
-     type: Math.floor(i / 3) % 3,
-     fill: Math.floor(i / 9) % 3,
-     color: Math.floor(i / 27),
-   */
   const howMany = []
   for (let i = 0; i < tuple[0]; i++) howMany.push(i)
 
@@ -80,8 +79,8 @@ const Card = props => {
           dx = 70 * (i - 1)
           shapesOnCard.push(
             <polygon
-              points={`${140 + dx}, 20 ${160 + dx}, 70, ${140 +
-                dx}, 120, ${120 + dx}, 70`}
+              points={`${130 + dx}, 20 ${150 + dx}, 70, ${130 +
+                dx}, 120, ${110 + dx}, 70`}
               style={{
                 fill: theCard.fill,
                 color: theCard.color,
@@ -96,7 +95,7 @@ const Card = props => {
           dx = i === 0 ? 0 : 60 * parity
           shapesOnCard.push(
             <polygon
-              points={`${100 + dx}, 20 ${120 + dx}, 70, ${100 + dx}, 120, ${80 +
+              points={`${90 + dx}, 20 ${110 + dx}, 70, ${90 + dx}, 120, ${70 +
                 dx}, 70`}
               style={{
                 fill: theCard.fill,
@@ -118,7 +117,7 @@ const Card = props => {
           dx = 80 * (i - 1)
           shapesOnCard.push(
             <ellipse
-              cx={140 + dx}
+              cx={130 + dx}
               cy={70}
               rx="23"
               ry="50"
@@ -137,7 +136,7 @@ const Card = props => {
           dx = i === 0 ? 0 : 60 * parity
           shapesOnCard.push(
             <ellipse
-              cx={100 + dx}
+              cx={90 + dx}
               cy={70}
               rx="23"
               ry="50"
@@ -161,7 +160,7 @@ const Card = props => {
           dx = 70 * (i - 1)
           shapesOnCard.push(
             <rect
-              x={120 + dx}
+              x={110 + dx}
               y={23}
               width={40}
               height={90}
@@ -179,7 +178,7 @@ const Card = props => {
           dx = i === 0 ? 0 : 60 * parity
           shapesOnCard.push(
             <rect
-              x={80 + dx}
+              x={70 + dx}
               y={20}
               width={40}
               height={90}
@@ -200,7 +199,8 @@ const Card = props => {
   }
 
   return (
-    <svg className="card" onClick={() => onClick(tuple)}>
+    <svg className="single-card" onClick={() => handleClick()} tagname={1}>
+      >
       <defs>
         <pattern
           id="diagonal-hatch-purple"
@@ -211,8 +211,8 @@ const Card = props => {
           <path
             className="path"
             d="M-1,1 l2,-2
-	  M0,4 l4,-4
-	  M3,5 l2,-2"
+	    M0,4 l4,-4
+	    M3,5 l2,-2"
             style={{stroke: 'purple', strokeWidth: 1}}
           />
         </pattern>
@@ -225,8 +225,8 @@ const Card = props => {
           <path
             className="path"
             d="M-1,1 l2,-2
-	  M0,4 l4,-4
-	  M3,5 l2,-2"
+	    M0,4 l4,-4
+	    M3,5 l2,-2"
             style={{stroke: 'green', strokeWidth: 1}}
           />
         </pattern>
@@ -239,20 +239,19 @@ const Card = props => {
           <path
             className="path"
             d="M-1,1 l2,-2
-	  M0,4 l4,-4
-	  M3,5 l2,-2"
+	    M0,4 l4,-4
+	    M3,5 l2,-2"
             style={{stroke: 'red', strokeWidth: 1}}
           />
         </pattern>
       </defs>
-
       {shapesOnCard.map((shape, index) => {
         return (
           <g key={`${shape.props.style.color}${index}`}>
             <rect />
             {/*<text x="40" y="70" fill="black" fontSize="35">
-		{`${theCard.shape}, ${tuple[0]+1}`}
-		</text>*/}
+		  {`${theCard.shape}, ${tuple[0]+1}`}
+		  </text>*/}
             {shape}
           </g>
         )
