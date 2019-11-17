@@ -20,6 +20,10 @@ const User = db.define('user', {
     type: Sequelize.ARRAY(Sequelize.INTEGER),
     defaultValue: []
   },
+  sets: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
   email: {
     type: Sequelize.STRING,
     unique: true
