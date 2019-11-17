@@ -48,7 +48,7 @@ router.post('/new', async (req, res, next) => {
     const deck = []
     const firstTwelve = []
     for (let i = 0; i < 81; i++) deck.push(i)
-    //    shuffle(deck)
+    shuffle(deck)
     for (let i = 0; i < 12; i++) firstTwelve.push(deck[i])
     const newGame = await Game.create({
       code: customId({}),
@@ -96,40 +96,40 @@ router.put('/:id/players', async (req, res, next) => {
   }
 })*/
 
-router.post('/check-set', async (req, res, next) => {
-  // make a dictionary of sets?
+/*router.post('/check-set', async (req, res, next) => {
+  // keep track of sets?
   try {
-    if (Object.keys(req.body)[0] === 'false') {
-      res.send(false)
-    } else {
-      let threeCards = req.body
-      threeCards = threeCards.map(n => numberToTuple(n))
-      res.status(200).send(checkSet(threeCards))
-    }
+    let threeCards = req.body
+    threeCards = threeCards.map(n => numberToTuple(n))
+    res.status(200).send(checkSet(threeCards))
   } catch (err) {
     next(err)
   }
-})
+})*/
 
 router.put('/:gId/:pId/update-board', async (req, res, next) => {
   try {
-    const theSet = req.body
+    let threeCards = req.body
+    const tuples = threeCards.map(n => numberToTuple(n))
+    const isSet = checkSet(tuples)
     const game = await Game.findByPk(+req.params.gId)
-    const player = await User.findByPk(+req.params.pId)
-    let {cardsOnTheBoard, nextCardPos} = game
-    for (let i = 0; i < 3; i++) {
-      cardsOnTheBoard.splice(
-        cardsOnTheBoard.indexOf(theSet[i]),
-        1,
-        game.deck[nextCardPos++]
+    if (isSet) {
+      const player = await User.findByPk(+req.params.pId)
+      let {cardsOnTheBoard, nextCardPos} = game
+      for (let i = 0; i < 3; i++) {
+        cardsOnTheBoard.splice(
+          cardsOnTheBoard.indexOf(threeCards[i]),
+          1,
+          game.deck[nextCardPos++]
+        )
+      }
+      await User.update({sets: player.sets + 1}, {where: {id: player.id}})
+      const updatedGame = await Game.update(
+        {cardsOnTheBoard, nextCardPos},
+        {where: {id: game.id}, returning: true, plain: true}
       )
-    }
-    await User.update({sets: player.sets + 1}, {where: {id: player.id}})
-    const updatedGame = await Game.update(
-      {cardsOnTheBoard, nextCardPos},
-      {where: {id: game.id}, returning: true, plain: true}
-    )
-    res.status(200).json(updatedGame[1])
+      res.status(201).json(updatedGame[1])
+    } else res.status(200).send(game)
   } catch (err) {
     next(err)
   }
