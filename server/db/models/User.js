@@ -13,7 +13,12 @@ const User = db.define('user', {
     defaultValue: 'guest'
   },
   isOnline: {
-    type: Sequelize.BOOLEAN
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  },
+  clickedCards: {
+    type: Sequelize.ARRAY(Sequelize.INTEGER),
+    defaultValue: []
   },
   email: {
     type: Sequelize.STRING,
