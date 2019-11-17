@@ -12,6 +12,7 @@ const numberToTuple = x => {
 const checkSet = threeCards => {
   if (threeCards.length < 3 || threeCards.length > 3)
     return new Error('not enough cards')
+  threeCards.map(n => numberToTuple(n))
   for (let i = 0; i < 4; i++) {
     let sum = 0
     for (let j = 0; j < 3; j++) {
