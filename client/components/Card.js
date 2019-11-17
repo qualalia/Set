@@ -6,10 +6,7 @@ import {numberToTuple} from '../gameUtils'
 
 const Card = props => {
   const {which} = props
-  //  const gameId = useSelector(state => state.game.id) || -1
-  //  const user = useSelector(state => state.user)
   let clickedCards = useSelector(state => state.setClickedCards)
-  //  const playerId = user.id
   const dispatch = useDispatch()
   const handleClick = () => {
     if (clickedCards.length > 3) {
@@ -18,7 +15,6 @@ const Card = props => {
       clickedCards.splice(clickedCards.indexOf(which), 1)
     } else clickedCards.push(which)
     dispatch(setClickedCards(clickedCards))
-    //    dispatch(toggleClicked(clickedCards, which))
   }
 
   const tuple = numberToTuple(which)
