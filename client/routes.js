@@ -6,12 +6,12 @@ import {me} from './store'
 
 const Routes = () => {
   const user = useSelector(state => state.user)
-  const isLoggedIn = !!user.id
+  const isLoggedIn = !!user.email
+  const player = user
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(me)
   }, [])
-
   return (
     <Switch>
       {/* Routes placed here are available to all visitors */}
@@ -23,7 +23,7 @@ const Routes = () => {
           <Route path="/home" component={UserHome} />
         </Switch>
       )}
-      <Route path="/solitaire" render={() => <Game />} />
+      <Route path="/solo" render={() => <Game player={player} />} />
     </Switch>
   )
 }
