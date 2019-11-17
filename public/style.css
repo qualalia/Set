@@ -37,7 +37,7 @@ nav {
   left: calc(50% - 5rem);
 }
 
-.card {
+/*.card {
   margin: 1.5rem;
   padding: 1rem;
   width: 15rem;
@@ -49,7 +49,7 @@ nav {
 
 .card:focus {
   border: 2px solid blue;
-}
+}*/
 
 #draw-pile {
   position: absolute;
@@ -99,6 +99,14 @@ nav {
   padding: 2rem 0;
   width: 80vw;
   background-color: aquamarine;
-  border: 1px solid orange;
   display: flex;
+}
+
+.card-outer-div {
+  padding: 0.5rem;
+}
+
+.card-outer-div:hover {
+  border: 2px solid yellow;
+  border-radius: 25px;
 }
