@@ -39,11 +39,16 @@ nav {
 
 .card {
   margin: 1.5rem;
+  padding: 1rem;
   width: 15rem;
   height: 10rem;
   border: 2px solid white;
   background-color: white;
   border-radius: 10px;
+}
+
+.card:focus {
+  border: 2px solid blue;
 }
 
 #draw-pile {
@@ -71,11 +76,29 @@ nav {
   color: green;
 }
 
+.single-card {
+  width: 15rem;
+  height: 12rem;
+  margin: 1rem;
+  padding: 1rem;
+  padding-left: -1rem;
+  background-color: white;
+  border-radius: 25px;
+}
+
+#cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+}
+
 #game-board {
   margin: 7rem;
-  padding: 2rem 6rem;
-  qwidth: 80vw;
-  height: 70vh;
+  padding: 2rem 0;
+  width: 80vw;
   background-color: aquamarine;
   border: 1px solid orange;
+  display: flex;
 }
