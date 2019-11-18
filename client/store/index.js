@@ -5,14 +5,16 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import game from './game.js'
 import setClickedCards from './toggleClicked'
-import checkSet from './checkSet'
+//import checkSet from './checkSet'
 import players from './players.js'
+import hint from './hint.js'
 
 const reducer = combineReducers({
   user,
-  checkSet,
+  //  checkSet,
   setClickedCards,
   game,
+  hint,
   players
 })
 const middleware = composeWithDevTools(
