@@ -1,5 +1,3 @@
-const Deck = require('../db/models')
-
 module.exports = io => {
   io.on('connection', socket => {
     console.log(`User ${socket.id} has connected.`)

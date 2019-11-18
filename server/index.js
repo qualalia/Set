@@ -10,7 +10,8 @@ const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
-module.exports = app
+let io
+module.exports = {app, io}
 
 // This is a global Mocha hook, used for resource cleanup.
 // Otherwise, Mocha v4+ never quits after tests.
@@ -101,8 +102,15 @@ const startListening = () => {
   )
 
   // set up our socket control center
-  const io = socketio(server)
-  require('./socket')(io)
+  io = socketio(server)
+  io.on('connection', socket => {
+    console.log(`User ${socket.id} has connected.`)
+
+    socket.on('disconnect', () => {
+      console.log(`User ${socket.id} has disconnected.`)
+    })
+  })
+  //  require('./socket')(io)
 }
 
 const syncDb = () => db.sync()
