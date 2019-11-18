@@ -1,5 +1,5 @@
 const axios = require('axios')
-const {playerClickCard} = require('./toggleClicked.js')
+//const {playerClickCard} = require('./toggleClicked.js')
 const {red} = require('chalk')
 
 // ACTION TYPES
@@ -21,12 +21,22 @@ export const newGame = () => async dispatch => {
   }
 }
 
+export const getGame = code => async dispatch => {
+  try {
+    const {data} = await axios.get(`/api/games/${code}`)
+    dispatch(setGame(data))
+  } catch (err) {
+    console.error(red(err))
+  }
+}
+
 export const updateGame = (theSet, playerId, gameId) => async dispatch => {
   try {
     const {data} = await axios.put(
       `/api/games/${gameId}/${playerId}/update-board`,
       theSet
     )
+    console.log('update thunk sends back: ', data)
     dispatch(setGame(data))
   } catch (err) {
     console.error(red(err))
