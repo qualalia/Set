@@ -2,6 +2,7 @@ const router = require('express').Router()
 const {Game, User, GamePlayer} = require('../db/models')
 const {checkSet, shuffle, numberToTuple} = require('../../client/gameUtils.js')
 const customId = require('custom-id')
+const {io} = require('./index.js')
 module.exports = router
 
 const CARDS_IN_DECK = 81
@@ -15,31 +16,12 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:code', async (req, res, next) => {
   try {
     const game = await Game.findOne({
-      where: {id: +req.params.id},
-      attributes: ['id', 'code', 'deck', 'nextCardPos', 'cardsOnTheBoard']
+      where: {code: req.params.code}
     })
     res.json(game)
-  } catch (err) {
-    next(err)
-  }
-})
-
-router.get('/:id/next-card', async (req, res, next) => {
-  try {
-    const game = await Game.findByPk(+req.params.id)
-    const nextCard = game.deck[game.nextCardPos]
-    const cardsOnTheBoard = game.cardsOnTheBoard
-    await Game.update(
-      {
-        nextCardPos: game.nextCardPos + 1,
-        cardsOnTheBoard: [...cardsOnTheBoard, nextCard]
-      },
-      {where: {id: game.id}}
-    )
-    res.status(200).json(nextCard)
   } catch (err) {
     next(err)
   }
@@ -141,6 +123,7 @@ router.put('/:gId/:pId/update-board', async (req, res, next) => {
         res.status(200).json({gg: 'no cards left', player: updatedPlayer[1]})
       } else {
         //	res.status(201).json({game: updatedGame[1], player: updatedPlayer[1]})
+        //	io.emit('game-update', updatedGame.code)
         res.status(201).json(updatedGame[1])
       }
     } else res.status(200).send(game)
