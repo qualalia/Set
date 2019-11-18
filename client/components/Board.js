@@ -1,14 +1,17 @@
 import React, {useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {newAnon} from '../store/'
-import {Card} from '../components'
+import {Card, EndGame} from '../components'
 
 const Board = props => {
   const game = useSelector(state => state.game)
-  const cardsOnTheBoard = game.cardsOnTheBoard
-
+  const user = useSelector(state => state.user)
+  const yourSets = game.sets || 0
+  const {cardsOnTheBoard, nextCardPos} = game
   const cardPlaces = []
-  for (let i = 0; i < 12; i++) cardPlaces.push(i)
+  let slots = 12
+  if (cardsOnTheBoard) slots = cardsOnTheBoard.length
+  for (let i = 0; i < slots; i++) cardPlaces.push(i)
 
   const clickedCards = useSelector(state => state.setClickedCards)
   const dispatch = useDispatch()
@@ -25,7 +28,7 @@ const Board = props => {
             className="card-outer-div"
             style={
               clickedCards.includes(cardsOnTheBoard[place])
-                ? {border: 5 + 'px solid white', borderRadius: 25 + 'px'}
+                ? {border: 5 + 'px solid gold', borderRadius: 25 + 'px'}
                 : {}
             }
             tabIndex={0}
@@ -34,8 +37,8 @@ const Board = props => {
           </div>
         ))}
       </div>
-      <div className="your-sets">
-        <div>10</div>
+      <div id="your-sets">
+        <div>{yourSets}</div>
       </div>
     </div>
   ) : null
