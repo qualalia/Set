@@ -1,39 +1,51 @@
 import React, {useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import {Board, DealPile} from '../components'
-import {checkSet} from '../store/checkSet.js'
-//import {playerClickCard} from '../store/toggleClicked.js'
-//import {toggleClicked} from '../store/toggleClicked.js'
+import {Button} from 'semantic-ui-react'
+import {Board, EndGame} from '../components'
 import {setClickedCards} from '../store/toggleClicked.js'
 import {newGame, updateGame} from '../store/game.js'
 
 const Game = props => {
   const game = useSelector(state => state.game)
   const user = useSelector(state => state.user)
-  const ilyaSet = useSelector(state => state.checkSet)
+  //  const player = useSelector(state => state.player)
   let clickedCards = useSelector(state => state.setClickedCards)
   const cards = game.deck || []
+  const {nextCardPos} = game
+  //  let isStumped = false;
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(newGame())
   }, [])
 
-  console.log('in Game: ', clickedCards)
   if (clickedCards.length === 3) {
-    //    dispatch(checkSet(clickedCards))
-    //    if (ilyaSet) {
     dispatch(updateGame(clickedCards, user.id, game.id))
     dispatch(setClickedCards([]))
-    //      dispatch(checkSet(clickedCards))
   }
 
-  return (
-    <div id="playing-area">
-      <Board clickedCards={clickedCards} />
-      <DealPile anyLeft={!!cards.length} onClick={() => 'stumped'} />
-    </div>
-  )
+  const handleStumped = () => {
+    dispatch(showHint(game.cardsOnTheBoard))
+    console.log("you're stumped")
+  }
+
+  return nextCardPos ? (
+    nextCardPos === 81 ? (
+      <EndGame />
+    ) : (
+      <div id="playing-area">
+        <Board clickedCards={clickedCards} />
+        <Button
+          id="stumped-btn"
+          color="black"
+          disabled={!!(81 - nextCardPos < 3)}
+          onClick={handleStumped}
+        >
+          Stumped?
+        </Button>
+      </div>
+    )
+  ) : null
 }
 
 export default Game
