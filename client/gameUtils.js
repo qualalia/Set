@@ -25,13 +25,33 @@ const checkSet = threeCards => {
   return true
 }
 
-const dealCard = (deck, nextCardPos) => {
+const findSet = cards => {
+  let rho = []
+  for (let i = 0; i < cards.length; i++) {
+    rho = []
+    rho.push(cards[i])
+    for (let j = i + 1; j < cards.length - 1; j++) {
+      rho.push(cards[j])
+      for (let k = 0; k < cards.length - 2; k++) {
+        if (cards[k] === cards[i]) k++
+        if (cards[k] === cards[j]) k++
+        rho.push(cards[k])
+        console.log(rho)
+        if (checkSet(rho)) return [rho[0], rho[1]]
+        else break
+      }
+    }
+  }
+  return []
+}
+
+/*const dealCard = (deck, nextCardPos) => {
   if (nextCardPos >= 0 && nextCardPos < deck.length) {
     let toDeal = deck[nextCardPos]
     return toDeal
   }
   return []
-}
+}*/
 
 const shuffle = cards => {
   for (let i = 0; i < cards.length; i++) {
@@ -42,10 +62,4 @@ const shuffle = cards => {
   }
 }
 
-const getNextCardPos = deck => deck.nextCardPos
-
-const setNextCardPos = (deck, theNextPos) => {
-  deck.nextCardPos = theNextPos
-}
-
-module.exports = {checkSet, numberToTuple, dealCard, shuffle}
+module.exports = {checkSet, numberToTuple, findSet, shuffle}
