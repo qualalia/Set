@@ -16,11 +16,11 @@ const Game = db.define('game', {
     type: Sequelize.ARRAY(Sequelize.INTEGER),
     defaultValue: []
   },
-  clickedCards: {
+  /*  clickedCards: {
     // keep track of who clicked what cards (dynamic)
     type: Sequelize.ARRAY(Sequelize.JSON),
     defaultValue: []
-  },
+  },*/
   nextCardPos: {
     type: Sequelize.INTEGER,
     defaultValue: 0

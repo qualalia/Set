@@ -1,5 +1,6 @@
 const User = require('./User')
 const Game = require('./Game')
+const GamePlayer = require('./GamePlayer.js')
 //const Card = require('./Card')
 //const Deck = require('./Deck')
 
@@ -14,7 +15,8 @@ Game.belongsToMany(User, {through: 'GamePlayers'})
 
 module.exports = {
   User,
-  Game
+  Game,
+  GamePlayer
   //  Deck
   //  Card
 }
