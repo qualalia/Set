@@ -23,33 +23,38 @@ const Navbar = ({history}) => {
       key: 2,
       text: <i>Multiplayer (coming soon)</i>,
       icon: 'users',
-      value: 2
+      value: 2,
+      onClick: () => history.push('/join')
     }
   ]
 
   return (
     <nav>
-      <div id="title">Set</div>
       <div className="nav-items">
         <div className="new-game">
-          <Menu compact>
+          <Menu compact inverted>
             <Dropdown text="New Game" options={options} simple item />
           </Menu>
         </div>
         <div className="home-login">
-          {/*          <Button
+          <Button
+            color="black"
             onClick={() =>
               isLoggedIn ? history.push('/home') : history.push('/login')
             }
           >
             {user.username || 'Login'}
-          </Button>*/}
+          </Button>
           {user.email ? (
-            <Button onClick={() => dispatch(logout())}>Logout</Button>
+            <Button color="black" onClick={() => dispatch(logout())}>
+              Logout
+            </Button>
           ) : (
             <span />
           )}
-          <Button onClick={() => history.push('/signup')}>Signup</Button>
+          <Button color="black" onClick={() => history.push('/signup')}>
+            Signup
+          </Button>
         </div>
       </div>
     </nav>

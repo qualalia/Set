@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
-import {Login, Signup, UserHome, Game} from './components'
+import {Login, Signup, UserHome, Game, Join} from './components'
 import {me} from './store'
+//import {join} from './store/players.js'
 
 const Routes = () => {
   const user = useSelector(state => state.user)
@@ -24,6 +25,7 @@ const Routes = () => {
         </Switch>
       )}
       <Route path="/solo" render={() => <Game player={player} />} />
+      <Route path="/join" render={() => <Join userId={user.id} />} />
     </Switch>
   )
 }
