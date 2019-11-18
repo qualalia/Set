@@ -6,6 +6,7 @@ import {Card, EndGame} from '../components'
 const Board = props => {
   const game = useSelector(state => state.game)
   const user = useSelector(state => state.user)
+  const hint = useSelector(state => state.hint)
   const yourSets = game.sets || 0
   const {cardsOnTheBoard, nextCardPos} = game
   const cardPlaces = []
@@ -20,6 +21,17 @@ const Board = props => {
     dispatch(newAnon())
   }, [])
 
+  const hintedIndex = place => {
+    if (hint.length) {
+      if (
+        cardsOnTheBoard.indexOf(hint[0]) === place ||
+        cardsOnTheBoard.indexOf(hint[1]) === place
+      )
+        return true
+    }
+    return false
+  }
+
   return cardsOnTheBoard ? (
     <div id="game-board">
       <div id="cards">
@@ -27,9 +39,11 @@ const Board = props => {
           <div
             className="card-outer-div"
             style={
-              clickedCards.includes(cardsOnTheBoard[place])
-                ? {border: 5 + 'px solid gold', borderRadius: 25 + 'px'}
-                : {}
+              hint && hintedIndex(place)
+                ? {border: 5 + 'px solid aquamarine', borderRadius: 25 + 'px'}
+                : clickedCards.includes(cardsOnTheBoard[place])
+                  ? {border: 5 + 'px solid gold', borderRadius: 25 + 'px'}
+                  : {}
             }
             tabIndex={0}
           >
