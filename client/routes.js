@@ -25,6 +25,10 @@ const Routes = () => {
         </Switch>
       )}
       <Route path="/solo" render={() => <Game player={player} />} />
+      <Route
+        path="/play/:id"
+        render={routeProps => <Game code={routeProps.match.params.id} />}
+      />
       <Route path="/join" render={() => <Join userId={user.id} />} />
     </Switch>
   )
