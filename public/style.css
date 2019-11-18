@@ -1,18 +1,39 @@
+html {
+  background-color: rgba(101, 17, 66, 1);
+}
+
 body {
   font-family: sans-serif;
+  height: 100vh;
+}
+
+.body {
+  background-color: rgba(101, 17, 66, 1);
+  height: 100vh;
 }
 
 label {
   display: block;
+  color: goldenrod;
 }
 
 form div {
   margin: 1em;
   display: inline-block;
+  height: 100vh;
+}
+
+a {
+  color: goldenrod;
+  position: absolute;
+  top: 15%;
+  left: 2%;
 }
 
 nav {
-  margin-top: 2rem;
+  box-shadow: 0px 5px rgba(0, 0, 0, 0.7);
+  padding: 1rem;
+  background-color: rgba(101, 17, 60, 1);
 }
 
 .nav-items {
@@ -22,6 +43,10 @@ nav {
   justify-content: space-around;
 }
 
+#dropdown {
+  color: rgba(0, 0, 0, 0.7);
+}
+
 .home-login .new-game {
   margin-left: 1rem;
   margin-right: 1rem;
@@ -29,13 +54,13 @@ nav {
   margin-bottom: 1rem;
 }
 
-#title {
+/*#title {
   font-size: 4rem;
   margin-left: 2rem;
   margin-bottom: 1rem;
   position: absolute;
   left: calc(50% - 5rem);
-}
+}*/
 
 /*.card {
   margin: 1.5rem;
@@ -51,18 +76,16 @@ nav {
   border: 2px solid blue;
 }*/
 
-#draw-pile {
+#stumped-btn {
   position: absolute;
-  top: 40%;
-  left: 85%;
-  width: 10rem;
-  height: 15rem;
+  top: 82%;
+  left: 2%;
   border-radius: 10px;
-  border: 2px solid yellow;
+  border: 2px solid goldenrod;
 }
 
-.your-sets {
-  border: 1px solid green;
+#your-sets {
+  border: 3px solid goldenrod;
   position: absolute;
   left: 90%;
   top: 80%;
@@ -73,17 +96,17 @@ nav {
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: green;
+  color: goldenrod;
 }
 
 .single-card {
   width: 15rem;
   height: 12rem;
-  margin: 1rem;
   padding: 1rem;
   padding-left: -1rem;
   background-color: white;
   border-radius: 25px;
+  box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.4);
 }
 
 #cards {
@@ -92,21 +115,31 @@ nav {
   justify-content: center;
   align-content: center;
   width: 100%;
+  position: relative;
+  top: 50%;
 }
 
 #game-board {
   margin: 7rem;
+  margin-top: 0rem;
   padding: 2rem 0;
   width: 80vw;
-  background-color: aquamarine;
+  box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.4);
+  background-color: rgba(135, 45, 98, 1);
   display: flex;
 }
 
 .card-outer-div {
   padding: 0.5rem;
+  margin: 1rem;
+  border: 5px solid transparent;
 }
 
 .card-outer-div:hover {
-  border: 2px solid yellow;
+  border: 5px solid goldenrod;
   border-radius: 25px;
+}
+
+#gg {
+  padding: 10rem;
 }

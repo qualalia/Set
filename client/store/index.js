@@ -6,12 +6,14 @@ import user from './user'
 import game from './game.js'
 import setClickedCards from './toggleClicked'
 import checkSet from './checkSet'
+import players from './players.js'
 
 const reducer = combineReducers({
   user,
   checkSet,
   setClickedCards,
-  game
+  game,
+  players
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
