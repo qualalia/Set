@@ -7,12 +7,13 @@ import store from './store'
 import App from './app'
 
 // establishes socket connection
-import './socket'
+import Socket from './socket'
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <App />
+      <Socket />
     </Router>
   </Provider>,
   document.getElementById('app')
