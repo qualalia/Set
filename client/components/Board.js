@@ -8,7 +8,7 @@ const Board = props => {
   const user = useSelector(state => state.user)
   const hint = useSelector(state => state.hint)
   const yourSets = game.sets || 0
-  const {cardsOnTheBoard, nextCardPos} = game
+  const {cardsOnTheBoard, nextCardPos, cardsLeft} = game
   const cardPlaces = []
   let slots = 12
   if (cardsOnTheBoard) slots = cardsOnTheBoard.length
@@ -53,6 +53,9 @@ const Board = props => {
       </div>
       <div id="your-sets">
         <div>{yourSets}</div>
+      </div>
+      <div id="cards-left">
+        <div>{cardsLeft}</div>
       </div>
     </div>
   ) : null
