@@ -54,7 +54,7 @@ nav {
   margin-bottom: 1rem;
 }
 
-#stumped-btn {
+/*#stumped-btn {
   position: absolute;
   //    top: -20rem;
   //    left: 100rem;
@@ -62,6 +62,16 @@ nav {
   left: 79%;
   border-radius: 10px;
   border: 2px solid goldenrod;
+}*/
+
+#stumped-hint {
+  display: flex;
+  flex-direction: column;
+  margin-top: -5rem;
+  width: 10rem;
+  position: absolute;
+  left: 80%;
+  top: 70%;
 }
 
 #your-sets {
