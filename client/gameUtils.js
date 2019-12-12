@@ -10,9 +10,10 @@ const numberToTuple = x => {
 }
 
 const checkSet = threeCards => {
+  console.log('in check set', threeCards)
   if (threeCards.length < 3 || threeCards.length > 3)
     return new Error('not enough cards')
-  threeCards.map(n => numberToTuple(n))
+  //  threeCards.map(n => numberToTuple(n))
   for (let i = 0; i < 4; i++) {
     let sum = 0
     for (let j = 0; j < 3; j++) {
@@ -45,17 +46,9 @@ const findSet = cards => {
   return []
 }
 
-/*const dealCard = (deck, nextCardPos) => {
-  if (nextCardPos >= 0 && nextCardPos < deck.length) {
-    let toDeal = deck[nextCardPos]
-    return toDeal
-  }
-  return []
-}*/
-
 const shuffle = cards => {
   for (let i = 0; i < cards.length; i++) {
-    let swapPos = Math.floor(Math.random() * 81)
+    let swapPos = Math.floor(Math.random() * cards.length)
     let temp = cards[i]
     cards[i] = cards[swapPos]
     cards[swapPos] = temp
