@@ -5,7 +5,9 @@ import {Button} from 'semantic-ui-react'
 import {Board, EndGame} from '../components'
 import {setClickedCards} from '../store/toggleClicked.js'
 import {newGame, getGame, updateGame} from '../store/game.js'
-import {showHint} from '../store/hint.js'
+import {join} from '../store/players.js'
+//import {showHint} from '../store/hint.js'
+import {stumped} from '../store/game.js'
 
 const Game = props => {
   const game = useSelector(state => state.game)
@@ -13,14 +15,13 @@ const Game = props => {
   //  const player = useSelector(state => state.player)
   let clickedCards = useSelector(state => state.setClickedCards)
   const cards = game.deck || []
-  const {nextCardPos} = game
-  //  let isStumped = false;
+  const {nextCardPos, cardsLeft} = game
   const dispatch = useDispatch()
   const {code} = props
-  console.log(code)
 
   useEffect(
     () => {
+      console.log('in first useEffect')
       if (code) {
         dispatch(getGame(code))
       } else {
@@ -32,6 +33,7 @@ const Game = props => {
 
   useEffect(
     () => {
+      console.log('in second useEffect')
       if (game.code) {
         props.history.push(`/play/${game.code}`)
       }
@@ -45,26 +47,30 @@ const Game = props => {
   }
 
   const handleStumped = () => {
-    dispatch(showHint(game.cardsOnTheBoard))
-    console.log("you're stumped")
+    dispatch(stumped(game.id))
+  }
+
+  const handleHint = () => {
+    //    dispatch(showHint(game.cardsOnTheBoard))
   }
 
   return nextCardPos ? (
-    nextCardPos === 81 ? (
-      <EndGame />
-    ) : (
-      <div id="playing-area">
-        <Board clickedCards={clickedCards} />
+    <div id="playing-area">
+      <Board clickedCards={clickedCards} />
+      <div id="stumped-hint">
         <Button
-          id="stumped-btn"
+          className="stumped-btn"
           color="black"
           disabled={!!(81 - nextCardPos < 3)}
           onClick={handleStumped}
         >
           Stumped?
         </Button>
+        <Button color="black" onClick={handleHint}>
+          Hint
+        </Button>
       </div>
-    )
+    </div>
   ) : null
 }
 
