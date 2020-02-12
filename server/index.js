@@ -1,6 +1,6 @@
-const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
+const path = require('path')
 const compression = require('compression')
 const session = require('express-session')
 const passport = require('passport')
@@ -9,9 +9,8 @@ const {db} = require('./db')
 const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 1337
 const app = express()
-const socketio = require('socket.io')
-let io
-module.exports = {app, io}
+const createSockets = require('socket.io')
+module.exports = app
 
 // This is a global Mocha hook, used for resource cleanup.
 // Otherwise, Mocha v4+ never quits after tests.
@@ -55,7 +54,7 @@ const createApp = () => {
   // session middleware with passport
   app.use(
     session({
-      secret: process.env.SESSION_SECRET || 'my best friend is Cody',
+      secret: process.env.SESSION_SECRET || 'Fhqwhgads',
       store: sessionStore,
       resave: false,
       saveUninitialized: false
@@ -102,15 +101,8 @@ const startListening = () => {
   )
 
   // set up our socket control center
-  io = socketio(server)
-  io.on('connection', socket => {
-    console.log(`User ${socket.id} has connected.`)
-
-    socket.on('disconnect', () => {
-      console.log(`User ${socket.id} has disconnected.`)
-    })
-  })
-  //  require('./socket')(io)
+  const io = socketio(server)
+  createSockets(io)
 }
 
 const syncDb = () => db.sync()
