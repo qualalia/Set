@@ -64,6 +64,7 @@ router.put('/:gId/:pId/update-board', async (req, res, next) => {
         for (let i = 0; i < 3; i++)
           cardsOnTheBoard.splice(cardsOnTheBoard.indexOf(threeCards[i]), 1)
       else {
+        // replace clicked cards with 3 new cards
         for (let i = 0; i < Math.min(3, min); i++)
           cardsOnTheBoard.splice(
             cardsOnTheBoard.indexOf(threeCards[i]),
@@ -78,7 +79,7 @@ router.put('/:gId/:pId/update-board', async (req, res, next) => {
       let updatedGame = await Game.update(
         {cardsOnTheBoard, nextCardPos, cardsLeft: CARDS_IN_DECK - nextCardPos},
         {where: {id: game.id}, returning: true, plain: true}
-      )
+      )[1]
       if (cardsLeft === 0) {
         let setsLeft = false
         // check to see if there are any sets
@@ -99,7 +100,7 @@ router.put('/:gId/:pId/update-board', async (req, res, next) => {
             }
           }
         }
-        if (setsLeft) res.status(201).json(updatedGame[1])
+        if (setsLeft) res.status(201).json(updatedGame)
         else {
           // if none, game over
           updatedGame = await Game.update(
@@ -110,11 +111,11 @@ router.put('/:gId/:pId/update-board', async (req, res, next) => {
               gg: true
             },
             {where: {id: game.id}, returning: true, plain: true}
-          )
-          res.status(202).send(updatedGame[1])
+          )[1]
+          res.status(202).send(updatedGame)
         }
       } else {
-        res.status(201).json(updatedGame[1])
+        res.status(201).json(updatedGame)
       }
     } else res.status(200).send(game)
   } catch (err) {
@@ -129,7 +130,7 @@ router.put('/:id/players', async (req, res, next) => {
     const playerToAdd = await User.findByPk(userId)
     const gameId = parseInt(req.params.id, 10)
     const game = await Game.findByPk(gameId)
-    console.log(playerToAdd)
+    //    console.log(playerToAdd)
     game.addPlayers(playerToAdd)
     res.status.json(game)
   } catch (err) {
