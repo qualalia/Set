@@ -24,7 +24,6 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    console.log(req.sessionID)
     const sessionID = req.sessionID
     res
       .status(200)
