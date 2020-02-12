@@ -5,10 +5,9 @@ import {Card, EndGame} from '../components'
 
 const Board = props => {
   const game = useSelector(state => state.game)
-  const user = useSelector(state => state.user)
+  //  const user = useSelector(state => state.user)
   const hint = useSelector(state => state.hint)
-  const yourSets = game.sets || 0
-  const {cardsOnTheBoard, nextCardPos, cardsLeft} = game
+  const {cardsOnTheBoard} = game
   const cardPlaces = []
   let slots = 12
   if (cardsOnTheBoard) slots = cardsOnTheBoard.length
@@ -39,23 +38,18 @@ const Board = props => {
           <div
             className="card-outer-div"
             style={
-              hint && hintedIndex(place)
-                ? {border: 5 + 'px solid aquamarine', borderRadius: 25 + 'px'}
-                : clickedCards.includes(cardsOnTheBoard[place])
-                  ? {border: 5 + 'px solid gold', borderRadius: 25 + 'px'}
-                  : {}
+              clickedCards.includes(cardsOnTheBoard[place])
+                ? {border: 5 + 'px solid gold', borderRadius: 25 + 'px'}
+                : hint && hintedIndex(place)
+                  ? {border: 5 + 'px solid aquamarine', borderRadius: 25 + 'px'}
+                  : clickedCards.includes(cardsOnTheBoard[place])
+                    ? {border: 5 + 'px solid gold', borderRadius: 25 + 'px'}
+                    : {}
             }
-            tabIndex={0}
           >
             <Card key={`c${place}`} which={cardsOnTheBoard[place]} />
           </div>
         ))}
-      </div>
-      <div id="your-sets">
-        <div>{yourSets}</div>
-      </div>
-      <div id="cards-left">
-        <div>{cardsLeft}</div>
       </div>
     </div>
   ) : null

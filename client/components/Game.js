@@ -3,17 +3,22 @@ import {useSelector, useDispatch} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {Button} from 'semantic-ui-react'
 import {Board, EndGame} from '../components'
-import {setClickedCards} from '../store/toggleClicked.js'
-import {newGame, getGame, updateGame} from '../store/game.js'
-import {join} from '../store/players.js'
-//import {showHint} from '../store/hint.js'
-import {stumped} from '../store/game.js'
+import {
+  setClickedCards,
+  newGame,
+  getGame,
+  updateGame,
+  join,
+  showHint,
+  stumped
+} from '../store'
 
 const Game = props => {
   const game = useSelector(state => state.game)
   const user = useSelector(state => state.user)
   //  const player = useSelector(state => state.player)
   let clickedCards = useSelector(state => state.setClickedCards)
+  const hint = useSelector(state => state.hint)
   const cards = game.deck || []
   const {nextCardPos, cardsLeft} = game
   const dispatch = useDispatch()
@@ -21,7 +26,6 @@ const Game = props => {
 
   useEffect(
     () => {
-      console.log('in first useEffect')
       if (code) {
         dispatch(getGame(code))
       } else {
@@ -33,7 +37,6 @@ const Game = props => {
 
   useEffect(
     () => {
-      console.log('in second useEffect')
       if (game.code) {
         props.history.push(`/play/${game.code}`)
       }
@@ -51,12 +54,24 @@ const Game = props => {
   }
 
   const handleHint = () => {
-    //    dispatch(showHint(game.cardsOnTheBoard))
+    dispatch(showHint(game.cardsOnTheBoard))
+    //    if (!hint.length)
+    //      alert('There are no sets left!')
   }
 
   return nextCardPos ? (
-    <div id="playing-area">
-      <Board clickedCards={clickedCards} />
+    <div>
+      <div id="playing-area">
+        <Board clickedCards={clickedCards} />
+      </div>
+      <div id="info">
+        <div className="sets">
+          <div>todo</div>
+        </div>
+        <div id="cards-left">
+          <div>Cards Left: {cardsLeft}</div>
+        </div>
+      </div>
       <div id="stumped-hint">
         <Button
           className="stumped-btn"
