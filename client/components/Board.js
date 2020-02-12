@@ -36,6 +36,7 @@ const Board = props => {
       <div id="cards">
         {cardPlaces.map(place => (
           <div
+            key={`d${place}`}
             className="card-outer-div"
             style={
               clickedCards.includes(cardsOnTheBoard[place])
