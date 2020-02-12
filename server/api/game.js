@@ -5,7 +5,8 @@ const customId = require('custom-id')
 const {io} = require('./index.js')
 module.exports = router
 
-const CARDS_IN_DECK = 12
+//const CARDS_IN_DECK = 81
+const CARDS_IN_DECK = 81
 
 router.get('/', async (req, res, next) => {
   try {
@@ -79,6 +80,7 @@ router.put('/:gId/:pId/update-board', async (req, res, next) => {
         {where: {id: game.id}, returning: true, plain: true}
       )
       if (cardsLeft === 0) {
+        let setsLeft = false
         // check to see if there are any sets
         for (let i = 0; i < cardsOnTheBoard.length; i++) {
           for (let j = 0; j < cardsOnTheBoard.length; j++) {
@@ -91,23 +93,26 @@ router.put('/:gId/:pId/update-board', async (req, res, next) => {
                 cardsOnTheBoard[k]
               ].map(n => numberToTuple(n))
               if (checkSet(currentTuple)) {
-                res.status(201).json(updatedGame[1])
+                setsLeft = true
                 break
               }
             }
           }
         }
-        // if none, game over
-        updatedGame = await Game.update(
-          {
-            cardsOnTheBoard,
-            nextCardPos,
-            cardsLeft: CARDS_IN_DECK - nextCardPos,
-            gg: true
-          },
-          {where: {id: game.id}, returning: true, plain: true}
-        )
-        res.status(202).send(updatedGame[1])
+        if (setsLeft) res.status(201).json(updatedGame[1])
+        else {
+          // if none, game over
+          updatedGame = await Game.update(
+            {
+              cardsOnTheBoard,
+              nextCardPos,
+              cardsLeft: CARDS_IN_DECK - nextCardPos,
+              gg: true
+            },
+            {where: {id: game.id}, returning: true, plain: true}
+          )
+          res.status(202).send(updatedGame[1])
+        }
       } else {
         res.status(201).json(updatedGame[1])
       }
