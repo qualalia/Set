@@ -54,27 +54,37 @@ nav {
   margin-bottom: 1rem;
 }
 
-/*#stumped-btn {
-  position: absolute;
-  //    top: -20rem;
-  //    left: 100rem;
-  top: 60%;
-  left: 79%;
-  border-radius: 10px;
-  border: 2px solid goldenrod;
-}*/
-
 #stumped-hint {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   margin-top: -5rem;
-  width: 10rem;
+  //  width: 10rem;
   position: absolute;
   left: 80%;
   top: 70%;
 }
 
-#your-sets {
+#info {
+  display: flex;
+  flex-direction: column;
+}
+
+#cards-left {
+  border: 3px solid goldenrod;
+  position: relative;
+  left: 8rem;
+  top: 20rem;
+  width: 5rem;
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: goldenrod;
+}
+
+.sets {
   border: 3px solid goldenrod;
   position: relative;
   left: 8rem;
