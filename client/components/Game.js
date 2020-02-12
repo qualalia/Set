@@ -24,21 +24,29 @@ const Game = props => {
   const dispatch = useDispatch()
   const {code} = props
 
-  useEffect(
+  /*  useEffect(
     () => {
       if (code) {
-        dispatch(getGame(code))
+	dispatch(getGame(code))
       } else {
-        dispatch(newGame())
+	dispatch(newGame())
       }
     },
     [code]
-  )
+  ) */
 
   useEffect(
     () => {
-      if (game.code) {
-        props.history.push(`/play/${game.code}`)
+      /*      if (game.code) {
+	 dispatch(getGame(game.code))
+          props.history.push(`/play/${game.code}`)
+        }
+        else dispatch(newGame()) */
+      if (code) {
+        dispatch(getGame(code))
+        props.history.push(`/play/${code}`)
+      } else {
+        dispatch(newGame())
       }
     },
     [game.code]
