@@ -1,6 +1,11 @@
 const router = require('express').Router()
 const {Game, User, GamePlayer} = require('../db/models')
-const {checkSet, shuffle, numberToTuple} = require('../../client/gameUtils.js')
+const {
+  checkSet,
+  findSet,
+  shuffle,
+  numberToTuple
+} = require('../../client/gameUtils.js')
 const customId = require('custom-id')
 const {io} = require('./index.js')
 module.exports = router
@@ -81,25 +86,8 @@ router.put('/:gId/:pId/update-board', async (req, res, next) => {
         {where: {id: game.id}, returning: true, plain: true}
       ))[1]
       if (cardsLeft === 0) {
-        let setsLeft = false
         // check to see if there are any sets
-        for (let i = 0; i < cardsOnTheBoard.length; i++) {
-          for (let j = 0; j < cardsOnTheBoard.length; j++) {
-            if (j === i) continue
-            for (let k = 0; k < cardsOnTheBoard.length; k++) {
-              if (k === j || k === i) continue
-              const currentTuple = [
-                cardsOnTheBoard[i],
-                cardsOnTheBoard[j],
-                cardsOnTheBoard[k]
-              ].map(n => numberToTuple(n))
-              if (checkSet(currentTuple)) {
-                setsLeft = true
-                break
-              }
-            }
-          }
-        }
+        const setsLeft = findSet(cardsOnTheBoard).length > 0
         if (setsLeft) res.status(201).json(updatedGame)
         else {
           // if none, game over
