@@ -24,7 +24,7 @@ const checkSet = threeCards => {
   return true
 }
 
-const findSet = cards => {
+const findSet = (cards = []) => {
   for (let i = 0; i < cards.length; i++) {
     for (let j = 0; j < cards.length; j++) {
       if (j === i) continue
