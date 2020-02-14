@@ -76,10 +76,10 @@ router.put('/:gId/:pId/update-board', async (req, res, next) => {
          {sets: player.sets + 1},
          {where: {id: player.id}, returning: true, plain: true}
 	 )*/
-      let updatedGame = await Game.update(
+      let updatedGame = (await Game.update(
         {cardsOnTheBoard, nextCardPos, cardsLeft: CARDS_IN_DECK - nextCardPos},
         {where: {id: game.id}, returning: true, plain: true}
-      )[1]
+      ))[1]
       if (cardsLeft === 0) {
         let setsLeft = false
         // check to see if there are any sets
@@ -103,7 +103,7 @@ router.put('/:gId/:pId/update-board', async (req, res, next) => {
         if (setsLeft) res.status(201).json(updatedGame)
         else {
           // if none, game over
-          updatedGame = await Game.update(
+          updatedGame = (await Game.update(
             {
               cardsOnTheBoard,
               nextCardPos,
@@ -111,10 +111,11 @@ router.put('/:gId/:pId/update-board', async (req, res, next) => {
               gg: true
             },
             {where: {id: game.id}, returning: true, plain: true}
-          )[1]
+          ))[1]
           res.status(202).send(updatedGame)
         }
       } else {
+        // there are still cards left
         res.status(201).json(updatedGame)
       }
     } else res.status(200).send(game)
