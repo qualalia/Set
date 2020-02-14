@@ -10,7 +10,6 @@ const getRoom = sId => {
 function createSockets(io) {
   io.on('connection', socket => {
     console.log(`New player: ${socket.id}.`)
-
     /* io.on('connection', socket => {
      *   //socket.join(`room ${next}`)
      *   console.log(`Player ${socket.id} has joined room ${next}.`)
@@ -20,7 +19,6 @@ function createSockets(io) {
        // make new room
      *   }
      * }) */
-
     socket.on('disconnect', () => {
       //io.to(`room ${getRoom(socket.id)}`).emit('disconnect-player', socket.id) // add 'player has disconnected' to front-end
       console.log(`Player ${socket.id} has disconnected.`)
