@@ -8,10 +8,11 @@ import {
   newGame,
   getGame,
   updateGame,
-  join,
+  //  join,
   showHint,
   stumped
 } from '../store'
+import {findSet} from '../gameUtils.js'
 
 const Game = props => {
   const game = useSelector(state => state.game)
@@ -24,32 +25,15 @@ const Game = props => {
   const dispatch = useDispatch()
   const {code} = props
 
-  /*  useEffect(
-    () => {
-      if (code) {
-	dispatch(getGame(code))
-      } else {
-	dispatch(newGame())
-      }
-    },
-    [code]
-  ) */
-
   useEffect(
     () => {
-      /*      if (game.code) {
-	 dispatch(getGame(game.code))
-          props.history.push(`/play/${game.code}`)
-        }
-        else dispatch(newGame()) */
       if (code) {
         dispatch(getGame(code))
-        props.history.push(`/play/${code}`)
       } else {
         dispatch(newGame())
       }
     },
-    [game.code]
+    [code]
   )
 
   if (clickedCards.length === 3) {
@@ -63,9 +47,10 @@ const Game = props => {
 
   const handleHint = () => {
     dispatch(showHint(game.cardsOnTheBoard))
-    //    if (!hint.length)
-    //      alert('There are no sets left!')
   }
+
+  //  const setFound = findSet(game.cardsOnTheBoard)
+  //  console.log(setFound)
 
   return nextCardPos ? (
     <div>
@@ -89,7 +74,12 @@ const Game = props => {
         >
           Stumped?
         </Button>
-        <Button color="black" onClick={handleHint}>
+        <Button
+          className="stumped-btn"
+          color="black"
+          disabled={false}
+          onClick={handleHint}
+        >
           Hint
         </Button>
       </div>
