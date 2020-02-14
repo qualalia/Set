@@ -19,9 +19,9 @@ const joinGame = player => ({type: JOIN_GAME, player})
 /**
  * THUNK CREATORS
  */
-export const join = (gId, uId) => async dispatch => {
+export const join = (gameId, userId) => async dispatch => {
   try {
-    const {data} = await axios.put(`/api/games/${gId}/players`, uId)
+    const {data} = await axios.put(`/api/games/${gameId}/players`, userId)
     dispatch(joinGame(data || defaultGame))
   } catch (err) {
     console.error(err)
@@ -32,7 +32,7 @@ export const join = (gId, uId) => async dispatch => {
 export default function(state = defaultGame, action) {
   switch (action.type) {
     case JOIN_GAME:
-      return action.player
+      return [...state, action.player]
     default:
       return state
   }

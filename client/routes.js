@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
-import {Login, Signup, UserHome, Game, Join} from './components'
+import {Login, Signup, UserHome, Game, EndGame, Join} from './components'
 import {me} from './store'
 //import {join} from './store/players.js'
 
@@ -24,10 +24,14 @@ const Routes = () => {
           <Route path="/home" component={UserHome} />
         </Switch>
       )}
-      <Route path="/solo" render={() => <Game player={player} />} />
+      <Route path="/solo" render={() => <Game />} />
       <Route
         path="/play/:id"
-        render={routeProps => <Game code={routeProps.match.params.id} />}
+        render={props => <Game code={props.match.params.id} />}
+      />
+      <Route
+        path="/play/:id/gg"
+        render={props => <EndGame code={props.match.params.id} />}
       />
       <Route path="/join" render={() => <Join userId={user.id} />} />
     </Switch>

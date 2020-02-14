@@ -1,17 +1,17 @@
-const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
+const path = require('path')
 const compression = require('compression')
 const session = require('express-session')
 const passport = require('passport')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const {db} = require('./db')
 const sessionStore = new SequelizeStore({db})
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 1337
 const app = express()
 const socketio = require('socket.io')
-let io
-module.exports = {app, io}
+const {createSockets} = require('./socket')
+module.exports = app
 
 // This is a global Mocha hook, used for resource cleanup.
 // Otherwise, Mocha v4+ never quits after tests.
@@ -55,7 +55,7 @@ const createApp = () => {
   // session middleware with passport
   app.use(
     session({
-      secret: process.env.SESSION_SECRET || 'my best friend is Cody',
+      secret: process.env.SESSION_SECRET || 'Fhqwhgads',
       store: sessionStore,
       resave: false,
       saveUninitialized: false
@@ -72,15 +72,15 @@ const createApp = () => {
   app.use(express.static(path.join(__dirname, '..', 'public')))
 
   // any remaining requests with an extension (.js, .css, etc.) send 404
-  app.use((req, res, next) => {
-    if (path.extname(req.path).length) {
-      const err = new Error('Not found')
-      err.status = 404
-      next(err)
-    } else {
-      next()
-    }
-  })
+  /* app.use((req, res, next) => {
+   *   if (path.extname(req.path).length) {
+   *     const err = new Error('Not found')
+   *     err.status = 404
+   *     next(err)
+   *   } else {
+   *     next()
+   *   }
+   * }) */
 
   // sends index.html
   app.use('*', (req, res) => {
@@ -102,15 +102,8 @@ const startListening = () => {
   )
 
   // set up our socket control center
-  io = socketio(server)
-  io.on('connection', socket => {
-    console.log(`User ${socket.id} has connected.`)
-
-    socket.on('disconnect', () => {
-      console.log(`User ${socket.id} has disconnected.`)
-    })
-  })
-  //  require('./socket')(io)
+  const io = socketio(server)
+  createSockets(io)
 }
 
 const syncDb = () => db.sync()

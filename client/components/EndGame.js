@@ -4,9 +4,9 @@ import {useSelector} from 'react-redux'
 
 const EndGame = props => {
   const {game} = useSelector(state => state.game)
-  const {player} = game
-  const sets = player.sets
-  return game ? <div id="gg">You got {sets} sets</div> : null
+  //  const {player} = game
+  //  const sets = player.sets
+  return game ? <h1>GAME OVER</h1> : null
 }
 
 export default EndGame

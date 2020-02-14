@@ -24,3 +24,7 @@ const store = createStore(reducer, middleware)
 
 export default store
 export * from './user'
+export * from './game'
+export * from './hint'
+export * from './players'
+export * from './toggleClicked'

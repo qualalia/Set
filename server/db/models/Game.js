@@ -16,14 +16,20 @@ const Game = db.define('game', {
     type: Sequelize.ARRAY(Sequelize.INTEGER),
     defaultValue: []
   },
-  /*  clickedCards: {
-    // keep track of who clicked what cards (dynamic)
-    type: Sequelize.ARRAY(Sequelize.JSON),
-    defaultValue: []
-  },*/
   nextCardPos: {
     type: Sequelize.INTEGER,
     defaultValue: 0
+  },
+  cardsLeft: {
+    type: Sequelize.INTEGER
+  },
+  gg: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
+  /*  sets: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  }*/
 })
 module.exports = Game

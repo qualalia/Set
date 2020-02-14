@@ -202,7 +202,7 @@ const Card = props => {
   }
 
   return (
-    <svg className="single-card" onClick={() => handleClick()}>
+    <svg className="single-card" onClick={handleClick}>
       <defs>
         <pattern
           id="diagonal-hatch-purple"

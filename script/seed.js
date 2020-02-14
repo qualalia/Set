@@ -4,16 +4,6 @@ const customId = require('custom-id')
 const {db, User, Game, Deck} = require('../server/db')
 
 const TOTAL_SEEDS = 100
-//let cardsInDeck = []
-/*for (let i = 0; i < 81; i++)
-  cardsInDeck.push({
-    value: [i % 3],
-    type: Math.floor(i / 3) % 3,
-    fill: Math.floor(i / 9) % 3,
-    color: Math.floor(i / 27),
-  })
-console.log(cardsInDeck)*/
-
 let dummyUsers = [
   {
     username: 'linda',
