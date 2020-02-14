@@ -19,7 +19,7 @@ const Game = props => {
   let clickedCards = useSelector(state => state.setClickedCards)
   const hint = useSelector(state => state.hint)
   const cards = game.deck || []
-  const {nextCardPos, cardsLeft} = game
+  const {nextCardPos, cardsLeft, gg} = game
   const dispatch = useDispatch()
   const {code} = props
 
@@ -50,7 +50,7 @@ const Game = props => {
   //  const setFound = findSet(game.cardsOnTheBoard)
   //  console.log(setFound)
 
-  return nextCardPos ? (
+  return !gg ? (
     <div>
       <div id="playing-area">
         <Board clickedCards={clickedCards} />
@@ -82,7 +82,9 @@ const Game = props => {
         </Button>
       </div>
     </div>
-  ) : null
+  ) : (
+    <EndGame code={code} />
+  )
 }
 
 export default withRouter(Game)

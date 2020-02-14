@@ -23,7 +23,6 @@ function createSockets(io) {
 
     socket.on('disconnect', () => {
       //io.to(`room ${getRoom(socket.id)}`).emit('disconnect-player', socket.id) // add 'player has disconnected' to front-end
-
       console.log(`Player ${socket.id} has disconnected.`)
     })
   })
