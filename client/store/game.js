@@ -17,6 +17,7 @@ export const newGame = () => async dispatch => {
   try {
     const {data} = await axios.post('/api/games/new')
     dispatch(setGame(data))
+    history.push(`/play/${data.code}`)
   } catch (err) {
     console.error(red(err))
   }
@@ -47,7 +48,6 @@ export const updateGame = (theSet, playerId, gameId) => async dispatch => {
 export const stumped = gameId => async dispatch => {
   try {
     const {data} = await axios.get(`/api/games/${gameId}/stumped`)
-    console.log('stumped thunk sends back: ', data)
     dispatch(setGame(data))
   } catch (err) {
     console.error(red(err))
