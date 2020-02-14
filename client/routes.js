@@ -24,7 +24,7 @@ const Routes = () => {
           <Route path="/home" component={UserHome} />
         </Switch>
       )}
-      <Route path="/solo" render={() => <Game player={player} />} />
+      <Route path="/solo" render={() => <Game />} />
       <Route
         path="/play/:id"
         render={props => <Game code={props.match.params.id} />}
