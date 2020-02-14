@@ -12,12 +12,10 @@ import {
   showHint,
   stumped
 } from '../store'
-import {findSet} from '../gameUtils.js'
 
 const Game = props => {
   const game = useSelector(state => state.game)
   const user = useSelector(state => state.user)
-  //  const player = useSelector(state => state.player)
   let clickedCards = useSelector(state => state.setClickedCards)
   const hint = useSelector(state => state.hint)
   const cards = game.deck || []
