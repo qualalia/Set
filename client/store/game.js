@@ -1,18 +1,11 @@
 import history from '../history'
 const axios = require('axios')
-//const {playerClickCard} = require('./toggleClicked.js')
 const {red} = require('chalk')
 
-// ACTION TYPES
 const SET_GAME = 'SET_GAME'
-
-// INITIAL STATE
 const initialState = {}
-
-// ACTION CREATORS
 const setGame = game => ({type: SET_GAME, game})
 
-// THUNK CREATORS
 export const newGame = () => async dispatch => {
   try {
     const {data} = await axios.post('/api/games/new')
