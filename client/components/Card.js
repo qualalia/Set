@@ -2,19 +2,20 @@ import React, {useState} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {setClickedCards} from '../store/toggleClicked.js'
 import {numberToTuple} from '../gameUtils'
-//import {Shape} from '../components'
 
 const Card = props => {
   const {which} = props
   let clickedCards = useSelector(state => state.setClickedCards)
   const dispatch = useDispatch()
   const handleClick = () => {
-    if (clickedCards.length > 3) {
-      clickedCards = [which]
-    } else if (clickedCards.includes(which)) {
-      clickedCards.splice(clickedCards.indexOf(which), 1)
-    } else clickedCards.push(which)
-    dispatch(setClickedCards(clickedCards))
+    if (window.location.href.includes('play')) {
+      if (clickedCards.length > 3) {
+        clickedCards = [which]
+      } else if (clickedCards.includes(which)) {
+        clickedCards.splice(clickedCards.indexOf(which), 1)
+      } else clickedCards.push(which)
+      dispatch(setClickedCards(clickedCards))
+    }
   }
 
   const tuple = numberToTuple(which)

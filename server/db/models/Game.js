@@ -26,6 +26,10 @@ const Game = db.define('game', {
   gg: {
     type: Sequelize.BOOLEAN,
     defaultValue: false
+  },
+  foundSet: {
+    type: Sequelize.ARRAY(Sequelize.INTEGER),
+    defaultValue: []
   }
   /*  sets: {
     type: Sequelize.INTEGER,

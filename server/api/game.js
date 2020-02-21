@@ -45,7 +45,8 @@ router.post('/new', async (req, res, next) => {
       deck,
       cardsOnTheBoard: firstTwelve,
       nextCardPos: 12,
-      cardsLeft: CARDS_IN_DECK - 12
+      cardsLeft: CARDS_IN_DECK - 12,
+      foundSet: findSet(firstTwelve)
     })
     res.status(200).json(newGame)
   } catch (err) {
@@ -59,11 +60,11 @@ router.put('/:gId/:pId/update-board', async (req, res, next) => {
     const tuples = threeCards.map(n => numberToTuple(n))
     const isSet = checkSet(tuples)
     const game = await Game.findByPk(+req.params.gId)
-    let {cardsOnTheBoard, nextCardPos, cardsLeft} = game
+    let {cardsOnTheBoard, nextCardPos, cardsLeft, foundSet} = game
     const min = Math.min(3, cardsLeft)
     if (isSet) {
       // clicked cards form a set
-      const player = await User.findByPk(+req.params.pId)
+      //      const player = await User.findByPk(+req.params.pId)
       if (cardsOnTheBoard.length > 12 || min === 0)
         // had been stumped or no cards left --> don't deal three more
         for (let i = 0; i < 3; i++)
@@ -77,18 +78,31 @@ router.put('/:gId/:pId/update-board', async (req, res, next) => {
             game.deck[nextCardPos++]
           )
       }
+      console.log(`current set stored on game: `, foundSet)
+      let i = 0
+      while (i < 2 && threeCards.includes(foundSet[i])) i++
+      if (i === 2) {
+        foundSet = findSet(cardsOnTheBoard)
+        console.log(`new stored set on game: ${foundSet}`)
+      }
+      console.log('was a different set: ', threeCards)
+      // if they're the same, need new set to store in `foundSet`
+
       /*      const updatedPlayer = await User.update(
          {sets: player.sets + 1},
          {where: {id: player.id}, returning: true, plain: true}
 	 )*/
       let updatedGame = (await Game.update(
-        {cardsOnTheBoard, nextCardPos, cardsLeft: CARDS_IN_DECK - nextCardPos},
+        {
+          cardsOnTheBoard,
+          nextCardPos,
+          cardsLeft: CARDS_IN_DECK - nextCardPos,
+          foundSet
+        },
         {where: {id: game.id}, returning: true, plain: true}
       ))[1]
       if (cardsLeft === 0) {
-        // check to see if there are any sets
-        const setsLeft = findSet(cardsOnTheBoard).length > 0
-        if (setsLeft) res.status(201).json(updatedGame)
+        if (foundSet.length > 0) res.status(201).json(updatedGame)
         else {
           // if none, game over
           updatedGame = (await Game.update(
@@ -96,10 +110,12 @@ router.put('/:gId/:pId/update-board', async (req, res, next) => {
               cardsOnTheBoard,
               nextCardPos,
               cardsLeft: CARDS_IN_DECK - nextCardPos,
-              gg: true
+              gg: true,
+              foundSet: []
             },
             {where: {id: game.id}, returning: true, plain: true}
           ))[1]
+          console.log(`no sets left`)
           res.status(202).send(updatedGame)
         }
       } else {

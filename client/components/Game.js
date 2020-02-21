@@ -47,9 +47,6 @@ const Game = props => {
     dispatch(showHint(game.cardsOnTheBoard))
   }
 
-  //  const setFound = findSet(game.cardsOnTheBoard)
-  //  console.log(setFound)
-
   return !gg ? (
     <div>
       <div id="playing-area">
@@ -58,9 +55,6 @@ const Game = props => {
       <div id="info">
         <div className="sets">
           <div>todo</div>
-        </div>
-        <div id="cards-left">
-          <div>Cards Left: {cardsLeft}</div>
         </div>
       </div>
       <div id="stumped-hint">
