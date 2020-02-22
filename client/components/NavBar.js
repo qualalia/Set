@@ -31,6 +31,11 @@ const Navbar = ({history}) => {
   return (
     <nav>
       <div className="nav-items">
+        <div className="home">
+          <Button color="black" onClick={() => history.push('/')}>
+            Home
+          </Button>
+        </div>
         <div className="new-game">
           <Menu compact inverted>
             <Dropdown text="New Game" options={options} simple item />

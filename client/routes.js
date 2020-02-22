@@ -1,7 +1,15 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
-import {App, Login, Signup, UserHome, Game, EndGame, Join} from './components'
+import {
+  Homescreen,
+  Login,
+  Signup,
+  UserHome,
+  Game,
+  EndGame,
+  Join
+} from './components'
 import {me} from './store'
 //import {join} from './store/players.js'
 
@@ -16,7 +24,7 @@ const Routes = () => {
   return (
     <Switch>
       {/* Routes placed here are available to all visitors */}
-      <Route exact path="/" component={App} />
+      <Route exact path="/" render={() => <Homescreen />} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
       {isLoggedIn && (
