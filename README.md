@@ -23,11 +23,11 @@ In a browser on your local machine, go to https://localhost:1337
 ## Built With
 
 [React](https://reactjs.org/)
+
 [Redux](https://redux.js.org/)
+
 [Express](https://expressjs.com/)
+
 [PostgreSQL](https://www.postgresql.org/)
+
 [Socket.IO](https://socket.io/)
-
-## Authors
-
-[qualalia](https://github.com/qualalia)
