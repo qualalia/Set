@@ -1,41 +1,41 @@
-import React from 'react'
-import {useSelector, useDispatch} from 'react-redux'
-import {withRouter} from 'react-router'
-import {Menu, Dropdown, Button} from 'semantic-ui-react'
-import {logout, newAnon} from '../store'
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { withRouter } from "react-router";
+import { Menu, Dropdown, Button } from "semantic-ui-react";
+import { logout, newAnon } from "../store";
 
-const Navbar = ({history}) => {
-  const user = useSelector(state => state.user)
-  const isLoggedIn = !!user.email
-  const dispatch = useDispatch()
+const Navbar = ({ history }) => {
+  const user = useSelector(state => state.user);
+  const isLoggedIn = !!user.email;
+  const dispatch = useDispatch();
 
   const options = [
     {
       key: 1,
-      text: 'Solo',
-      icon: 'user',
+      text: "Solo",
+      icon: "user",
       value: 1,
       onClick: () => {
-        history.push('/solo')
-      }
+        history.push("/solo");
+      },
     },
     {
       key: 2,
       text: <i>Multiplayer (coming soon)</i>,
-      icon: 'users',
+      icon: "users",
       value: 2,
-      onClick: () => history.push('/join')
-    }
-  ]
+      onClick: () => history.push("/join"),
+    },
+  ];
 
   return (
     <nav>
       <div className="nav-items">
-        <div className="home">
+        {/*        <div className="home">
           <Button color="black" onClick={() => history.push('/')}>
             Home
           </Button>
-        </div>
+        </div>*/}
         <div className="new-game">
           <Menu compact inverted>
             <Dropdown text="New Game" options={options} simple item />
@@ -45,10 +45,10 @@ const Navbar = ({history}) => {
           <Button
             color="black"
             onClick={() =>
-              isLoggedIn ? history.push('/home') : history.push('/login')
+              isLoggedIn ? history.push("/home") : history.push("/login")
             }
           >
-            {user.username || 'Login'}
+            {user.username || "Login"}
           </Button>
           {user.email ? (
             <Button color="black" onClick={() => dispatch(logout())}>
@@ -57,13 +57,13 @@ const Navbar = ({history}) => {
           ) : (
             <span />
           )}
-          <Button color="black" onClick={() => history.push('/signup')}>
+          <Button color="black" onClick={() => history.push("/signup")}>
             Signup
           </Button>
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default withRouter(Navbar)
+export default withRouter(Navbar);
