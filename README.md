@@ -28,6 +28,8 @@ In a browser on your local machine, go to https://localhost:1337
 
 [Express](https://expressjs.com/)
 
+[Sequelize](https://sequelize.org/)
+
 [PostgreSQL](https://www.postgresql.org/)
 
 [Socket.IO](https://socket.io/)
