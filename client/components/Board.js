@@ -1,24 +1,25 @@
-import React, {useEffect} from 'react'
-import {useSelector, useDispatch} from 'react-redux'
-import {newAnon} from '../store/'
-import {Card, EndGame} from '../components'
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { newAnon } from "../store/";
+import { Loader } from "semantic-ui-react";
+import { Card, EndGame } from "../components";
 
 const Board = props => {
-  const game = useSelector(state => state.game)
+  const game = useSelector(state => state.game);
   //  const user = useSelector(state => state.user)
-  const hint = useSelector(state => state.hint)
-  const {cardsOnTheBoard} = game
-  const cardPlaces = []
-  let slots = 12
-  if (cardsOnTheBoard) slots = cardsOnTheBoard.length
-  for (let i = 0; i < slots; i++) cardPlaces.push(i)
+  const hint = useSelector(state => state.hint);
+  const { cardsOnTheBoard } = game;
+  const cardPlaces = [];
+  let slots = 12;
+  if (cardsOnTheBoard) slots = cardsOnTheBoard.length;
+  for (let i = 0; i < slots; i++) cardPlaces.push(i);
 
-  const clickedCards = useSelector(state => state.setClickedCards)
-  const dispatch = useDispatch()
+  const clickedCards = useSelector(state => state.setClickedCards);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(newAnon())
-  }, [])
+    dispatch(newAnon());
+  }, []);
 
   const hintedIndex = place => {
     if (hint.length) {
@@ -26,13 +27,13 @@ const Board = props => {
         cardsOnTheBoard.indexOf(hint[0]) === place ||
         cardsOnTheBoard.indexOf(hint[1]) === place
       )
-        return true
+        return true;
     }
-    return false
-  }
+    return false;
+  };
 
   return cardsOnTheBoard ? (
-    <div id="game-board">
+    <div className="game-board">
       <div id="cards">
         {cardPlaces.map(place => (
           <div
@@ -40,11 +41,14 @@ const Board = props => {
             className="card-outer-div"
             style={
               clickedCards.includes(cardsOnTheBoard[place])
-                ? {border: 5 + 'px solid gold', borderRadius: 25 + 'px'}
+                ? { border: 5 + "px solid gold", borderRadius: 25 + "px" }
                 : hint && hintedIndex(place)
-                  ? {border: 5 + 'px solid aquamarine', borderRadius: 25 + 'px'}
+                  ? {
+                      border: 5 + "px solid aquamarine",
+                      borderRadius: 25 + "px",
+                    }
                   : clickedCards.includes(cardsOnTheBoard[place])
-                    ? {border: 5 + 'px solid gold', borderRadius: 25 + 'px'}
+                    ? { border: 5 + "px solid gold", borderRadius: 25 + "px" }
                     : {}
             }
           >
@@ -53,7 +57,9 @@ const Board = props => {
         ))}
       </div>
     </div>
-  ) : null
-}
+  ) : (
+    <Loader />
+  );
+};
 
-export default Board
+export default Board;
