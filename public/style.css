@@ -17,13 +17,6 @@ form div {
   display: inline-block;
   height: 100vh;
 }
-
-a {
-  color: goldenrod;
-  position: absolute;
-  top: 15%;
-  left: 2%;
-}
 /* ---- */
 
 /* Navbar */
@@ -72,6 +65,51 @@ nav {
   display: flex;
   justify-content: space-around;
   padding: 2rem;
+}
+
+#login-or-signup {
+  height: 5rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+#login-form {
+  height: 15rem;
+  display: flex;
+  flex-direction: column;
+  margin-left: 2rem;
+  margin-top: -1rem;
+}
+
+.auth-form-div {
+  height: 2rem;
+}
+
+input {
+  //    width: 30rem;
+}
+
+#auth-msg {
+  //    height: 1rem;
+  font-style: italic;
+  //    margin-top: -0.25rem;
+  color: red;
+}
+
+#auth-submit {
+  margin-top: -1rem;
+}
+
+.auth-links {
+  display: flex;
+  justify-content: space-around;
+}
+
+.bottom-row {
+  display: flex;
 }
 
 /* ---- */

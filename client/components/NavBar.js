@@ -48,17 +48,15 @@ const Navbar = ({ history }) => {
           <Button
             color="black"
             onClick={() =>
-              isLoggedIn ? history.push("/home") : history.push("/login")
+              isLoggedIn ? history.push("/solo") : history.push("/login")
             }
           >
             {user.username || "Login"}
           </Button>
-          {user.email ? (
+          {user.email && (
             <Button color="black" onClick={() => dispatch(logout())}>
               Logout
             </Button>
-          ) : (
-            <span />
           )}
           <Button color="black" onClick={() => history.push("/signup")}>
             Signup

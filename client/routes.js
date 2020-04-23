@@ -27,8 +27,8 @@ const Routes = () => {
     <Switch>
       {/* Routes placed here are available to all visitors */}
       <Route exact path="/" render={() => <Game />} />
-      <Route path="/login" component={Login} />
-      <Route path="/signup" component={Signup} />
+      <Route path="/login" render={() => <Login open={true} />} />
+      <Route path="/signup" render={() => <Signup open={true} />} />
       <Route exact path="/rules" render={() => <RulesModal open={true} />} />
       {isLoggedIn && (
         <Switch>

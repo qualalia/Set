@@ -1,38 +1,65 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import PropTypes from 'prop-types'
-import {auth} from '../store'
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
+import { auth } from "../store";
+import { Modal, Button, Header, Divider, Table } from "semantic-ui-react";
 
 /**
  * COMPONENT
  */
 const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props
+  const { name, displayName, handleSubmit, error, open } = props;
+  const [isOpen, toggleOpen] = useState(false);
+  const history = useHistory();
+  const handleClose = () => {
+    toggleOpen(false);
+    history.push("/solo");
+  };
+  useEffect(() => {
+    toggleOpen(open);
+  }, []);
 
   return (
-    <div className="login-form">
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" />
+    <Modal
+      id="login-or-signup"
+      open={isOpen}
+      onClose={handleClose}
+      size="mini"
+      centered={false}
+      basic
+    >
+      <Modal.Content>
+        <form className="auth-form" onSubmit={handleSubmit} name={name}>
+          <div id="login-form">
+            <div className="auth-form-div">
+              <label htmlFor="email">Email</label>
+              <input name="email" type="text" />
+            </div>
+            <div className="auth-form-div">
+              <label htmlFor="password">Password</label>
+              <input name="password" type="password" />
+            </div>
+            <div id="auth-msg">
+              {error && error.response && error.response.data}{" "}
+            </div>
+            <div id="auth-submit">
+              <button type="submit">{displayName}</button>
+            </div>
+          </div>
+        </form>
+        <div className="auth-links">
+          <a href="/auth/google">{displayName} with Google</a>
+          {displayName === "Log in" ? (
+            <a href="/signup">Sign up</a>
+          ) : (
+            <a href="/login">Log in</a>
+          )}
         </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      <a href="/auth/google">{displayName} with Google</a>
-    </div>
-  )
-}
+      </Modal.Content>
+    </Modal>
+  );
+};
 
 /**
  * CONTAINER
@@ -43,34 +70,34 @@ const AuthForm = props => {
  */
 const mapLogin = state => {
   return {
-    name: 'login',
-    displayName: 'Login',
-    error: state.user.error
-  }
-}
+    name: "login",
+    displayName: "Log in",
+    error: state.user.error,
+  };
+};
 
 const mapSignup = state => {
   return {
-    name: 'signup',
-    displayName: 'Sign Up',
-    error: state.user.error
-  }
-}
+    name: "signup",
+    displayName: "Sign up",
+    error: state.user.error,
+  };
+};
 
 const mapDispatch = dispatch => {
   return {
     handleSubmit(evt) {
-      evt.preventDefault()
-      const formName = evt.target.name
-      const email = evt.target.email.value
-      const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
-    }
-  }
-}
+      evt.preventDefault();
+      const formName = evt.target.name;
+      const email = evt.target.email.value;
+      const password = evt.target.password.value;
+      dispatch(auth(email, password, formName));
+    },
+  };
+};
 
-export const Login = connect(mapLogin, mapDispatch)(AuthForm)
-export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
+export const Login = connect(mapLogin, mapDispatch)(AuthForm);
+export const Signup = connect(mapSignup, mapDispatch)(AuthForm);
 
 /**
  * PROP TYPES
@@ -79,5 +106,5 @@ AuthForm.propTypes = {
   name: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.object
-}
+  error: PropTypes.object,
+};
