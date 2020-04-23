@@ -9,12 +9,14 @@ import {
   Game,
   EndGame,
   Join,
+  RulesModal,
 } from "./components";
 import { me } from "./store";
 //import {join} from './store/players.js'
 
 const Routes = () => {
   const user = useSelector(state => state.user);
+  const game = useSelector(state => state.game);
   const isLoggedIn = !!user.email;
   const player = user;
   const dispatch = useDispatch();
@@ -27,6 +29,7 @@ const Routes = () => {
       <Route exact path="/" render={() => <Game />} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
+      <Route exact path="/rules" render={() => <RulesModal open={true} />} />
       {isLoggedIn && (
         <Switch>
           {/* Logged in */}
@@ -35,12 +38,13 @@ const Routes = () => {
       )}
       <Route path="/solo" render={() => <Game />} />
       <Route
-        path="/play/:id"
-        render={props => <Game code={props.match.params.id} />}
+        path="/play/:code"
+        render={props => <Game code={props.match.params.code} />}
       />
       <Route
-        path="/play/:id/gg"
-        render={props => <EndGame code={props.match.params.id} />}
+        exact
+        path="/play/:code/gg"
+        render={props => <EndGame code={props.match.params.code} />}
       />
       <Route path="/join" render={() => <Join userId={user.id} />} />
     </Switch>

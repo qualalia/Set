@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { withRouter } from "react-router";
 import { Menu, Dropdown, Button } from "semantic-ui-react";
-import { logout, newAnon } from "../store";
+import { logout } from "../store";
 
 const Navbar = ({ history }) => {
   const user = useSelector(state => state.user);
@@ -25,21 +25,24 @@ const Navbar = ({ history }) => {
       icon: "users",
       value: 2,
       onClick: () => history.push("/join"),
+      disabled: true,
     },
   ];
 
   return (
     <nav>
       <div className="nav-items">
-        {/*        <div className="home">
-          <Button color="black" onClick={() => history.push('/')}>
-            Home
-          </Button>
-        </div>*/}
-        <div className="new-game">
-          <Menu compact inverted>
-            <Dropdown text="New Game" options={options} simple item />
-          </Menu>
+        <div id="navbar-left">
+          <div className="rules">
+            <Button color="black" onClick={() => history.push("/rules")}>
+              Rules
+            </Button>
+          </div>
+          <div className="new-game">
+            <Menu compact inverted>
+              <Dropdown text="New Game" options={options} simple item />
+            </Menu>
+          </div>
         </div>
         <div className="home-login">
           <Button
