@@ -10,7 +10,7 @@ const customId = require("custom-id");
 const { io } = require("./index.js");
 module.exports = router;
 
-//const CARDS_IN_DECK = 81
+//const CARDS_IN_DECK = 15 // good for testing
 const CARDS_IN_DECK = 81;
 
 router.get("/", async (req, res, next) => {
@@ -24,9 +24,12 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:code", async (req, res, next) => {
   try {
-    const game = await Game.findOne({
+    let game = await Game.findOne({
       where: { code: req.params.code },
     });
+    if (game.cardsLeft === 0 || !findSet(game.cardsOnTheBoard).length) {
+      game = await game.update({ gg: true });
+    }
     res.json(game);
   } catch (err) {
     next(err);
@@ -65,7 +68,6 @@ router.put("/:gId/player/:pId/update-board", async (req, res, next) => {
     if (isSet) {
       // clicked cards form a set
       const sets = game.sets + 1;
-      //      const player = await User.findByPk(+req.params.pId)
       if (cardsOnTheBoard.length > 12 || min === 0)
         // had been stumped or no cards left, so don't deal three more
         for (let i = 0; i < 3; i++)
@@ -85,11 +87,6 @@ router.put("/:gId/player/:pId/update-board", async (req, res, next) => {
         foundSet = findSet(cardsOnTheBoard);
       }
       // if they're the same, need new set to store in `foundSet`
-
-      /*      const updatedPlayer = await User.update(
-         {sets: player.sets + 1},
-         {where: {id: player.id}, returning: true, plain: true}
-	 )*/
       let updatedGame = (await Game.update(
         {
           cardsOnTheBoard,
@@ -101,8 +98,9 @@ router.put("/:gId/player/:pId/update-board", async (req, res, next) => {
         { where: { id: game.id }, returning: true, plain: true },
       ))[1];
       if (cardsLeft === 0) {
-        if (foundSet.length > 0) res.status(201).json(updatedGame);
-        else {
+        if (findSet(cardsOnTheBoard).length) {
+          res.status(201).json(updatedGame);
+        } else {
           // if no cards left, it's game over
           updatedGame = (await Game.update(
             {
