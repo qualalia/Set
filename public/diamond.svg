@@ -17,7 +17,7 @@
   </defs>
   <polygon
       points="50,10 65,50 50,90 35,50"
-      fill="url(#diagonal-hatch-green)"
+      fill="green"
       stroke="green"
       stroke-width="3px" />
 </svg>

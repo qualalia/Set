@@ -40,16 +40,40 @@ nav {
   justify-content: space-around;
 }
 
+#navbar-left {
+  display: flex;
+}
+
 #dropdown {
   color: rgba(0, 0, 0, 0.7);
+  margin-left: -1rem;
 }
 
 .home-login .new-game {
-  margin-left: 1rem;
-  margin-right: 1rem;
+  //  margin-left: 1rem;
+  //  margin-right: 1rem;
   margin-top: -2rem;
   margin-bottom: 1rem;
 }
+
+#categories-table {
+  padding-bottom: 2rem;
+}
+
+.category {
+  transform: scale(0.5);
+  margin: -10rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  width: 10rem;
+}
+
+.example-set {
+  display: flex;
+  justify-content: space-around;
+  padding: 2rem;
+}
+
 /* ---- */
 
 /* Info divs (stumped, hint, cards left, sets) */
@@ -82,6 +106,8 @@ nav {
   margin-bottom: 2rem !important;
   margin-right: 2rem !important;
   padding: 1rem !important;
+  display: flex !important;
+  justify-content: space-between !important;
 }
 
 /* --- */
@@ -163,7 +189,7 @@ nav {
 /* --- */
 
 /* Containers */
-#game-board {
+.game-board {
   max-height: 87vh;
   overflow-y: auto;
   margin: 2rem 7rem;
@@ -177,6 +203,6 @@ nav {
   background-color: rgba(135, 45, 98, 1);
 }
 
-#gg {
-  padding: 10rem;
+.gg {
+  padding: 10rem 0;
 }
