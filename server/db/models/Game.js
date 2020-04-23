@@ -1,39 +1,39 @@
-const Sequelize = require('sequelize')
-const db = require('../db')
+const Sequelize = require("sequelize");
+const db = require("../db");
 
-const Game = db.define('game', {
+const Game = db.define("game", {
   code: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
   },
   winner: {
-    type: Sequelize.JSONB
+    type: Sequelize.JSONB,
   },
   deck: {
     type: Sequelize.ARRAY(Sequelize.INTEGER),
-    defaultValue: []
+    defaultValue: [],
   },
   cardsOnTheBoard: {
     type: Sequelize.ARRAY(Sequelize.INTEGER),
-    defaultValue: []
+    defaultValue: [],
   },
   nextCardPos: {
     type: Sequelize.INTEGER,
-    defaultValue: 0
+    defaultValue: 0,
   },
   cardsLeft: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
   },
   gg: {
     type: Sequelize.BOOLEAN,
-    defaultValue: false
+    defaultValue: false,
   },
   foundSet: {
     type: Sequelize.ARRAY(Sequelize.INTEGER),
-    defaultValue: []
-  }
-  /*  sets: {
+    defaultValue: [],
+  },
+  sets: {
     type: Sequelize.INTEGER,
-    defaultValue: 0
-  }*/
-})
-module.exports = Game
+    defaultValue: 0,
+  },
+});
+module.exports = Game;
