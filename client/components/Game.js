@@ -33,7 +33,6 @@ const Game = props => {
   );
 
   if (clickedCards.length === 3) {
-    console.log(clickedCards);
     dispatch(updateGame(clickedCards, user.id, game.id));
     dispatch(setClickedCards([]));
   }
