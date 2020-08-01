@@ -1,6 +1,6 @@
 # Play Set!
 
-Web-implementation of the classic card game. Single-player works, and multiplayer is in progress.
+Web-implementation of the classic card game. Play the single-player version at https://get-sets.herokuapp.com. Multiplayer is planned but on hold.
 
 ## Installation
 
